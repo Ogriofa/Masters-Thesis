@@ -1,0 +1,1380 @@
+\documentclass[12pt]{article}
+ \usepackage{graphicx}
+ \usepackage{float}
+\newcommand{\intprod}{\mathbin{\raisebox{\depth}{\scalebox{1}[-1]{$\lnot$}}}}
+\usepackage[margin=1 in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+
+
+\usepackage{mathtools}
+\usepackage{enumerate}
+\usetikzlibrary{cd}
+\usepackage{biblatex}
+\addbibresource{ThesisBib.bib}
+\usepackage{faktor}
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+
+
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\indep}{\perp \!\!\! \perp} 
+\newcommand{\Dd}{\nabla \text{d}}
+\newcommand{\diff}{\text{d}}
+%% Theorems formatting 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[subsection]
+\newtheorem{remark}{Remark}[subsection]
+\newtheorem{proposition}{Proposition}[subsection]
+%% Proof environment
+\renewcommand{\proofname}{\upshape\bfseries Proof}
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+ \numberwithin{equation}{subsection}
+ 
+\linespread{1.6}
+\begin{document}
+\tableofcontents
+\listoffigures
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+Recall that a function $f$ that maps from an $n$-dimensional Riemannian manifold $N$ to $\mathbb{R}$ is considered \textit{harmonic} if it satisfies the Laplace equation: $\Delta f = 0$. A \textit{harmonic morphism} $\varphi: (M^m, g) \rightarrow (N^n, h)$ between Riemannian manifolds $M$ and $N$ is a map that pulls back germs of harmonic functions on an open subset of $N$ to germs of harmonic functions on an open subset of $M$. In other words, harmonic morphisms are maps that preserve the harmonic structure of a given harmonic function: $\Delta (f \circ \varphi ) = 0$.
+
+\indent Provided the dimensions of the manifolds $M^m$ and $N^n$ satisfy a certain inequality [Cf.  Equation~\ref{eq: MilnorIneq}], Baird and Ou in \cite{BairdOu} prove that a harmonic morphism $G: \mathbb{R}^m \setminus V_G \rightarrow\mathbb{R}^n \setminus \{0 \} $ that is both defined by homogeneous maps and which possesses an isolated singularity ($\diff G = 0)$ at the origin can be retracted to a harmonic morphism that constitutes a Milnor map from $S^{m-1} \setminus K_\epsilon$ to $S^{n-1}$, where $V_G$ is the variety of $G$ and $K_\epsilon = S^{m-1} \cap V_G$. It was our hope in this paper to potentially relax the requirement that the maps defining the harmonic morphism $G$ need be homogeneous. The viability of such a weakening of the homogeneity assumption we discovered was not, however, tenable and have thus solidified that the class of harmonic morphisms which also retract to Milnor maps is limited to those defined by homogeneous maps.\\
+
+
+Before addressing the relationship between harmonic morphisms and Milnor fibrations, we will start by thoroughly laying out the requisite theory of harmonic morphisms. We will first look at harmonic morphisms between Euclidean manifolds. We will then look at the historically significant case of harmonic morphisms from $\mathbb{C} \times \mathbb{R} \; (\cong \mathbb{R}^3)$ to $\mathbb{C} \; (\cong \mathbb{R}^2)$ which was originally investigated by Jacobi. We are particularly interested in harmonic morphisms of codimension 1, of which the harmonic morphisms that arise in Jacobi's investigation are one prime example. Since his original investigation, Jacobi's problem has been completely solved and found to have an interesting overlap with the theory of minimal surfaces developed by Weierstrass and Enneper. Hence, all harmonic morphisms from $\mathbb{C}^n$ to $\mathbb{C}$ can be paramterized by the same meromorphic functions that turn up in the Weierstrass-Enneper parameterization of minimal surfaces.\\
+\indent Following our discussion of Jacobi's problem, we then generalize the theory of harmonic morphisms as maps between Riemannian manifolds. This will require a close look at the basic theory of distributions and curvature. This discussion culminates in the derivation of the so-called fundamental equation of harmonic morphisms [Cf. \cite{BairdWood}] which can be used to completely characterize harmonic morphisms with one-dimensional fibres (codimension 1).\\
+\indent Finally, we return to the original question concerning the relationship between harmonic morphisms and Milnor fibrations, confirming that the class of harmonic morphisms which retract to Milnor fibrations are limited to those defined by homogenous maps. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Harmonic Morphisms between Euclidean Spaces} \label{Sec: EuclHM}
+ To serve as an introduction to harmonic morphisms, we will start by considering harmonic morphisms between Euclidean manifolds since the mathematics falls out more simply and it is thus easier to immediately appreciate the implications. 
+ 
+ \subsection{Definitions and Characterization}
+ \begin{definition}
+Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$. We say $f$ is a \textit{harmonic function} if the Laplacian of $f$ is identically zero:
+$$
+\Delta f = 0
+$$
+\end{definition}
+
+\begin{definition} \label{def: EuclHM}
+(Harmonic Morphism on Euclidean Manifolds) a map $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^n$ is called a \textit{harmonic morphism} if for any harmonic function $f: U \rightarrow \mathbb{R}$, defined on an open subset $U$ of $\mathbb{R}^n$ with $\varphi^{-1}(U) \subseteq \mathbb{R}^m$ non-empty, $f \circ \varphi: \varphi^{-1}(U) \rightarrow \mathbb{R}$ is a harmonic function.
+\end{definition}
+
+ Thus, let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^p$ be a harmonic morphism and let $f: \mathbb{R}^p \rightarrow \mathbb{R}$
+be a harmonic function. Then one basic characterization of $\varphi$ as a harmonic morphism is that it should satisfy the following PDE:
+\begin{align}\label{eq:basicHM}
+    \Delta^m (f \circ \varphi) = 0
+\end{align}
+where $\Delta^m$ represents the $m$-dimensional Laplacian. Note that on a Euclidean manifold the Laplacian takes the familar form:
+\begin{align}
+  \Delta^m f = \sum_{k=0}^{m} \frac{\partial^2f}{\partial x_i^2}  
+\end{align}
+otherwise it depends expressly on the metric associated to the underlying manifold [Cf. Remark~\ref{Remark: RiemLapl}].
+
+What Equation~\ref{eq:basicHM} essentially means is that $\varphi$ pulls back harmonic functions on $\mathbb{R}^p$ to harmonic functions on $\mathbb{R}^n$. In general, precomposition of a harmonic function with any given map does not preserve the harmonic structure of $f$. Thus, a map that does preserve the harmonic structure is special and is given the name ``harmonic morphism".\\ 
+\indent For further insight into the defining properties of a harmonic morphism which maps between Euclidean spaces, lets work out a closed form expression for Equation~$\ref{eq:basicHM}$. First, we assume that $\varphi = (\varphi_1 , \dots , \varphi_p)$, where each component function is such that $\varphi_i: \mathbb{R}^m \rightarrow \mathbb{R}$. Then, 
+\begin{align*}
+\Delta^m(f\circ\varphi) &=\sum_{i =1}^{m}\frac{\partial^2}{\partial x_i^2}\left(f\circ\varphi\right)   \\
+ &= \sum_{i =1}^{m} \frac{\partial}{\partial x_i} \left(\frac{\partial}{\partial x_i}(f\circ\varphi)  \right) \\
+&=\sum_{i =1}^{m} \frac{\partial}{\partial x_i} \left(\sum_{k=1}^p \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial \varphi_k}{\partial x_i}  \right)\\
+&=\sum_{i =1}^{m} \left(\sum_{k=1}^p  \frac{\partial}{\partial x_i} \left[\frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial \varphi_k}{\partial x_i} \right]  \right)\\
+&=\sum_{i =1}^{m} \left(\sum_{k=1}^p \sum_{j=1}^p  \left[ \frac{\partial  \left(\frac{\partial(f\circ\varphi)}{\partial \varphi_k}\right)}{\partial \varphi_j} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i}\right]  + \sum_{k=1}^p \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}   \right)\\
+&=\sum_{i =1}^{m} \sum_{k,j=1}^p   \frac{\partial^2  \left(f\circ\varphi\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \sum_{i =1}^{m} \sum_{k=1}^p \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}  
+\end{align*}
+
+Thus Equation~\ref{eq:basicHM} gives us the following:
+
+\begin{align}\label{eq:closedformBasicHM}
+   \sum_{i =1}^{m} \sum_{k,j=1}^p   \frac{\partial^2  \left(f\circ\varphi\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \sum_{i =1}^{m} \sum_{k=1}^p \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}   = 0
+\end{align}
+
+In and of itself Equation~\ref{eq:closedformBasicHM} does not immediately grant any insight, however, through an appropriate selection of basic harmonic functions, we may arrive at the following theorem:
+
+\begin{theorem} \label{th: HMproperties}
+Let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^p$ such that $\varphi = (\varphi_1 , \dots , \varphi_p)$ and let $f: \mathbb{R}^p \rightarrow \mathbb{R}$ be a harmonic function. Then $\varphi$ is a harmonic morphism if and only if the following conditions are satisfied:
+\begin{enumerate}[(i)]
+    \item $\Delta^m \varphi_i = 0$ for each component function of $\varphi$
+    \item$\nabla\varphi_i \cdot \nabla\varphi_j = \lambda(\mathbf{x}) \delta_{ij}$ where $\mathbf{x} \in \mathbb{R}^m$
+\end{enumerate}
+\end{theorem}
+
+\begin{proof} $(\Rightarrow): (i)$ 
+Let $\varphi$ be an harmonic morphism. Then  $\Delta^m(f\circ\varphi) = 0$ for every $f$ a harmonic function. Consider the following harmonic function :
+\begin{align*}
+&f: \mathbb{R}^p \rightarrow \mathbb{R} \\
+&(x_1 , \ldots,x_i, \ldots, x_p) \mapsto x_i
+\end{align*}
+where $0\leq i \leq p$.
+Hence,
+\begin{align*}
+\Delta^m(f\circ\varphi) = \Delta^m \varphi_i 
+\end{align*}
+therefore 
+$$
+\Delta^m \varphi_i =0
+$$
+since $i$ is arbitrary, this must hold for all the component functions of $\varphi$. Thus, all component functions are harmonic.
+
+$(\Rightarrow): (ii)$
+Now, consider a new harmonic function $f$, defined as follows:
+\begin{align*}
+&f: \mathbb{R}^p \rightarrow \mathbb{R} \\
+&(x_1 , \ldots,x_l, \ldots, x_n, \ldots, x_p) \mapsto x_l x_n
+\end{align*}
+where $0 \leq l, n \leq p$ and $l \neq n$.
+So observe,
+\begin{align*}
+\Delta^m(f\circ\varphi) &= \sum_{i =1}^{m} \sum_{k,j=1}^p  \left[ \frac{\partial^2  \left(\varphi_l \varphi_n\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \frac{\partial(\varphi_l \varphi_n) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}  \right]
+\end{align*}
+The double sum over $k$ and $j$ will only produce non-zero terms whenever $k$ and $j$ equal some combination of $l$ and $n$. Thus,
+
+\begin{align*}
+&\sum_{i =1}^{m} \left[ \frac{\partial \varphi_l}{\partial x_i} \frac{\partial \varphi_n}{\partial x_i} + \varphi_l \frac{\partial^2\varphi_n}{\partial x_i^2} + \frac{\partial \varphi_n}{\partial x_i} \frac{\partial \varphi_l}{\partial x_i} + \varphi_n \frac{\partial^2\varphi_l}{\partial x_i^2} + \varphi_l \frac{\partial^2\varphi_n}{\partial x_i^2} + \varphi_n \frac{\partial^2\varphi_l}{\partial x_i^2} \right] \\
+&= 2 \sum_{i =1}^{m} \frac{\partial \varphi_l}{\partial x_i} \frac{\partial \varphi_n}{\partial x_i} +  2\varphi_l \sum_{i =1}^{m}\frac{\partial^2\varphi_n}{\partial x_i^2} + 2\varphi_n \sum_{i =1}^{m}\frac{\partial^2\varphi_l}{\partial x_i^2} \\
+&= 2 \left(\nabla\varphi_l \cdot \nabla\varphi_n \right) + 2 \varphi_l \left(\Delta^m \varphi_n \right) + 2 \varphi_n \left(\Delta^m \varphi_l \right) \\
+&= 2 \left(\nabla\varphi_l \cdot \nabla\varphi_n \right) + 0 + 0 \\
+&= 2 \left(\nabla\varphi_l \cdot \nabla\varphi_n \right) \overset{!}{=} 0
+\end{align*}
+therefore
+$$
+\nabla\varphi_l \cdot \nabla\varphi_n  = 0
+$$
+
+Next, we consider yet another harmonic function 
+\begin{align*}
+&f: \mathbb{R}^p \rightarrow \mathbb{R} \\
+&(x_1 , \ldots,x_l, \ldots, x_n, \ldots , x_p) \mapsto x_l^2 - x_n^2
+\end{align*}
+where $0 \leq l, n \leq p$ and $\l \neq n$.
+
+Also, notice from (i) the general equation for $\Delta^m(f\circ\varphi)$ simplifies:
+
+$$
+\Delta^m(f\circ\varphi) = \sum_{i =1}^{m} \sum_{k,j=1}^p  \frac{\partial^2  \left(\varphi_l^2 - \varphi_n^2\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i}
+$$
+Again, the double sum over $k$ and $j$ only produces non-zero terms whenever $k$ and $j$ equal some combination of $l$ and $n$. Thus,
+\begin{align*}
+&\sum_{i =1}^{m} \left[ (2\varphi_l - 2\varphi_n)\frac{\partial \varphi_l}{\partial x_i} \frac{\partial \varphi_n}{\partial x_i} - 2 \varphi_n \frac{\partial^2\varphi_n}{\partial x_i^2} + (2\varphi_l - 2\varphi_n)\frac{\partial \varphi_n}{\partial x_i} \frac{\partial \varphi_l}{\partial x_i} + 2\varphi_l \frac{\partial^2\varphi_l}{\partial x_i^2} + 2 \left(\frac{\partial \varphi_l}{\partial x_i} \right)^2 - 2 \left(\frac{\partial \varphi_n}{\partial x_i} \right)^2  \right] \\
+&=4(\varphi_l - \varphi_n) \left( \nabla\varphi_l \cdot \nabla\varphi_n  \right) + 2 \left( \nabla\varphi_l \cdot \nabla\varphi_l  - \nabla\varphi_n \cdot \nabla\varphi_n \right)\\
+&= 0 + 2 \left( |\nabla\varphi_l|^2  - |\nabla\varphi_n|^2 \right) \overset{!}{=} 0 
+\end{align*}
+therefore
+$$
+|\nabla\varphi_l |^2 = |\nabla\varphi_n|^2
+$$
+The implication of the above result is important. Since, by assumption $l \neq n$, the above result says that for every $\mathbf{x} \in \mathbb{R}^m$ and for each $ i, j \in \mathbb{N},\; 0\leq i,j\leq p$
+$$
+|\nabla\varphi_i ( \mathbf{x} )|^2 = |\nabla\varphi_
+j ( \mathbf{x} )|^2
+$$
+
+Notice that this is indeed equivalent to the statement:
+\begin{align*}
+    \nabla\varphi_i \cdot \nabla\varphi_i = \lambda(\mathbf{x}) 
+\end{align*}
+Since by definition $\nabla\varphi_i \cdot \nabla\varphi_i = | \nabla \varphi_i|^2$, and $| \nabla \varphi_j|^2$ can be viewed as a scalar function of $\mathbf{x} \in \mathbb{R}^m$. Since again $i$ is arbitrary the above statement says that for any given $\mathbf{x} \in \mathbb{R}^m$, all gradients for all component functions of $\varphi$ have the same length.\\
+
+So the implication in total means that while the lengths of the gradients may change as we pass from one point to another, they all change together in such a way that their lengths remain the same and their directions remain mutually orthogonal.\\
+
+$(\Leftarrow):$ Assume the component functions of $\varphi$ are harmonic $\Delta^m \varphi_i = 0$ and assume they are mutually orthogonal $\nabla\varphi_i \cdot \nabla\varphi_j = \lambda(\mathbf{x}) \delta_{ij}$
+
+Consider:
+\begin{align*}
+\Delta^m(f\circ\varphi) &= \sum_{i =1}^{m} \sum_{k,j=1}^p  \left[ \frac{\partial^2  \left(f\circ\varphi\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}  \right]
+\end{align*}
+Since the sums in the above equation are finite, we may commute them:
+
+\begin{align*}
+\Delta^m(f\circ\varphi) &=  \sum_{k,j=1}^p  \sum_{i =1}^{m}\left[ \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_j \partial \varphi_k} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \frac{\partial(f\circ\varphi) }{\partial \varphi_k} \frac{\partial^2\varphi_k}{\partial x_i^2}  \right] \\
+ &=  \sum_{k,j=1}^p \left[ \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_j \partial \varphi_k}  \sum_{i =1}^{m} \frac{\partial \varphi_j}{\partial x_i} \frac{\partial \varphi_k}{\partial x_i} + \frac{\partial(f\circ\varphi) }{\partial \varphi_k}  \sum_{i =1}^{m}\frac{\partial^2\varphi_k}{\partial x_i^2}  \right]\\
+ &= \sum_{k,j=1}^p \left[ \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_j \partial \varphi_k}  (\nabla\varphi_j \cdot \nabla \varphi_k)  + \frac{\partial(f\circ\varphi) }{\partial \varphi_k}  (\Delta^m \varphi_k)  \right] \\
+ &=   \sum_{j=1}^p \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_j^2} |\nabla \varphi_j|^2 + \sum_{k=1}^p \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_k^2}|\nabla \varphi_k|^2  + 0 \\
+\end{align*}
+Then for a fixed $\mathbf{x} \in \mathbb{R}^p$ , we have $|\nabla \varphi_i|^2 = \lambda \in \mathbb{R}$ constant, $\forall i \in \mathbb{N}$, $0 \leq i \leq p$. Thus,
+
+\begin{align*}
+\Delta^m(f\circ\varphi) &= 2\lambda \sum_{j=1}^p \frac{\partial^2  \left( f \circ \varphi\right)}{\partial \varphi_j^2} 
+\end{align*}
+Since $f\circ \varphi = f(\varphi_1, \dots, \varphi_p)$ means
+\begin{align*}
+& \Delta^m(f\circ\varphi) = 2\lambda \Delta^p f \\
+\end{align*}
+
+Then since by assumption $f$ is harmonic, we finally get: 
+\begin{align*}
+& \Delta^m(f\circ\varphi) = 0 
+\end{align*}
+Hence, $\varphi$ is a harmonic morphism.
+
+\end{proof}
+
+One of the immediate consequences of Theorem~\ref{th: HMproperties} is a that the possible dimensions $m$ and $p$ are limited when looking for non-trivial (non-constant) harmonic morphisms.\\
+\begin{theorem}
+Let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^p$ be a harmonic morphism with $p > m$. Then $\varphi$ is a constant function.
+\end{theorem}
+
+\begin{proof}
+Let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^p$ be an harmonic morphism with $p > m$. Then $\forall i, j \in \mathbb{N}$ s.t. $0\leq i,j \leq p$ with $i \neq j$, we have $\nabla \varphi_i \cdot \nabla \varphi_j = 0$. Hence, $\nabla \varphi_i \perp \nabla \varphi_j$. Thus, we have $p$-many linearly independent vectors $\in \mathbb{R}^m$. But since, $p > m$ means at least $(p-m)$-many of them must be $\mathbf{0}$, $\forall \mathbf{x} \in \mathbb{R}^m$. However, since $\varphi$ is an harmonic morphism, means that $|\nabla \varphi_i|^2 = |\nabla \varphi_j|^2$, $\forall i,j \in \mathbb{N}$ s.t. $0 \leq i,j \leq p$ and $\forall \mathbf{x} \in \mathbb{R}^m$. Thus, if at least one $\nabla \varphi_i = \mathbf{0}$  for every  $\mathbf{x} \in \mathbb{R}^m$, means this must be true for each  $\varphi_i$. Thus $\nabla \varphi_i = \mathbf{0}$ for $ 0 \leq i \leq p$. This means  $\varphi_i \overset{!}{=} \alpha_i$ a constant, for each $i$. Therefore,  $\varphi = \left( \alpha_1, \ldots, \alpha_p \right)$ is a constant function.
+\end{proof}
+
+\vspace{1cm}
+The following theorem will prove useful in the later \S~\ref{sec: MilnorFib}.
+\begin{theorem}
+(Entire Harmonic Morphisms) Let $\varphi: \mathbb{R}^m \setminus K \rightarrow \mathbb{R}^n$ be a harmonic morphism, where $K$ is a closed polar set and $n \geq 3$. Then $\varphi$ is a polynomial mapping of degree $p$ which satisfies
+\begin{align}\label{eq:25}
+    p \leq (m-2)/ (n-2)
+\end{align}
+\end{theorem}
+
+\begin{remark}
+Theorem 3.4 essentially concludes that any harmonic morphisms between Euclidean spaces of the requisite dimension must be defined by polynomials.
+\end{remark}
+
+\begin{corollary}
+Let $\varphi: \mathbb{R}^m \setminus K \rightarrow \mathbb{R}^n$ be a harmonic morphism, where $K$ is a closed polar set, $n\geq 3$ and $m < 2n-2$. Then $\varphi$ is an orthogonal projection followed by a homothety.
+\end{corollary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Examples}
+Below are provided a few essential and informative examples of harmonic morphisms between Euclidean manifolds. 
+\begin{example}
+Let $\varphi$ be a constant function. Then $\varphi$ is a harmonic morphism.
+\begin{proof}
+Let $\varphi:\mathbb{R}^m \rightarrow \mathbb{R}^n$ be a constant function. Then this implies all of its components are constant, $\varphi = (\alpha_1, \dots, \alpha_n)$. Let $f: \mathbb{R}^n \rightarrow \mathbb{R}$ be a harmonic function (or really any function), then $f \circ \varphi  = f(\alpha_1 , \dots, \alpha_n)$ a constant. Hence, $\Delta (f \circ \varphi) = 0. $
+\end{proof}
+\end{example}
+\begin{example} \label{ex: holom}
+
+Let $\varphi: \mathbb{C} \rightarrow \mathbb{C}$ be $\pm$-holomorphic. Then $\varphi$ is a harmonic morphism.
+
+\begin{proof} In order for $\varphi = \big(u(x,y) , v(x,y)   \big)$ to be a harmonic morphism, it must constitute a solution to the following system of PDE's:
+
+\begin{align*}
+&(a)\; \nabla u \cdot \nabla v = u_x v_x + u_y v_y \overset{!}{=} 0 \\
+&(b)\; |\nabla u|^2 = |\nabla v|^2\\
+&(c) \; \Delta u = 0 \enspace \text{and} \enspace \Delta v = 0
+\end{align*}
+
+Now, notice as a special case, that holomorphic maps from $\mathbb{C}$ to $\mathbb{C}$ satisfy the above system of PDE's (bearing in mind the standard isomorphism $\mathbb{C} \cong \mathbb{R}^2$).\\
+
+So, if $\varphi$ is holomorphic, then it must satisfy the Cauchy-Riemann equations
+\begin{align*}
+u_x &= v_y \\
+u_y &= -v_x
+\end{align*}
+Thus, the PDE $(a)$ is satisfied:
+\begin{align*}
+ u_x v_x + u_y v_y &= (v_y)v_x + (-v_x)v_y \\
+&=v_y v_x - v_x v_y\\
+&= 0
+\end{align*}
+and PDE $(b)$
+\begin{align*}
+u_x^2 + u_y^2 & = (v_y)^2 + (- v_x)^2 \\
+&=v_y^2 + v_x^2
+\end{align*}
+
+Lastly, since $\varphi$ is holomorphic means its components are harmonic conjugates: $\Delta u = 0$ and $ \Delta v = 0$. Hence, PDE $(c)$ is also satisfied. This shows that all holomorphic maps from $\mathbb{C}$ to $\mathbb{C}$ are harmonic morphisms. Finally, notice that the proof follows exactly the same if we assume $\varphi$ is anti-holomorphic.
+\end{proof}
+\end{example}
+\begin{example}
+As a generalization of Example~\ref{ex: holom}, any $\pm$-holomorphic map from $\mathbb{C}^n$ to $\mathbb{C}$ is a harmonic morphism.
+\end{example}
+\begin{example}
+Let $f, g: \mathbb{C}^n \rightarrow \mathbb{C}$ be holomorphic functions. Then $f \overline{g}$ is a harmonic morphism.
+\end{example}
+\begin{example}
+Let $f:\mathbb{R}^m \rightarrow \mathbb{R}^n$ and $g:\mathbb{R}^p \rightarrow \mathbb{R}^m$ be a harmonic morphisms. Then $f \circ g: \mathbb{R}^p \rightarrow \mathbb{R}^n$ is a harmonic morphism. 
+\end{example}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Jacobi's Problem}
+\indent The original study of those maps that we now call harmonic morphisms is traced back to Jacobi's study of the following question:
+Let $\varphi: U \rightarrow \mathbb{C}$ by a $\mathcal{C}^2$ function on an open subset of Euclidean 3-space $\mathbb{R}^3$ which is harmonic (satisfies Laplace's equation): 
+
+\begin{align*}
+    \Delta \varphi \equiv \sum_{i=1}^{3} \frac{\partial^2 \varphi}{\partial x_i^2} = 0
+\end{align*}
+
+Then the questions is: Under what conditions on $\varphi$ is the composition $f \circ \varphi$ harmonic for an arbitrary holomorphic map $f:V\rightarrow \mathbb{C}$ defined on an open subset of $\mathbb{C}$?\\
+
+\subsection{A Solution}
+Now, notice that if we let $\varphi = ( \varphi_1 , \varphi_2)$ where $\varphi_i: \mathbb{R}^3 \rightarrow \mathbb{R}$ then we can derive a formula that is essentially equivalent to that previously derived in Equation~\ref{eq:closedformBasicHM} only simplifying the notation to reflect that we are now looking at maps over $\mathbb{C}$. Thus,  using the chain rule to expand $\Delta(f \circ \varphi)$ we get:
+
+\begin{align*}
+    \frac{\partial}{\partial x_i} (f \circ \varphi) = \sum_{j=1}^{2}\frac{\partial (f \circ \varphi)}{ \partial \varphi_j} \frac{\varphi_j}{\partial x_i}
+\end{align*}
+
+then letting
+$$ \frac{\text{d}f}{\text{d}z} := \sum_{j=1}^2 \frac{\partial (f \circ \varphi)}{\partial \varphi_j} $$
+we get 
+\begin{equation} \label{eq:1}
+    \Delta (f \circ \varphi) = \frac{\text{d}f}{\text{d}z} \Delta \varphi + \frac{\text{d}^2f}{\text{d}z^2} \sum_{i=1}^3 \left(\frac{\partial \varphi}{\partial x_i}\right)^2    
+\end{equation}
+
+It is clear from Equation~\ref{eq:1} that if we  require $f \circ \varphi$ to be harmonic, then we must require that $\varphi$ itself be harmonic (which we have assumed) and that  
+
+\begin{equation}\label{eq:2}
+    &\sum_{i=1}^3 \left(\frac{\partial \varphi}{\partial x_i}\right)^2  = 0
+\end{equation}
+
+Thus, it follows that for any harmonic map $\varphi: \mathbb{R}^3 \rightarrow \mathbb{C}$, satisfying Equation~\ref{eq:2} we get 
+$\Delta (f \circ \varphi) = 0$. Such a $\varphi$ we call a harmonic morphism.
+
+\begin{remark}
+Notice that Equation~\ref{eq:1} and Equation~\ref{eq:2} are invariant under isometries of the domain, meaning they are independent of choice of coordinate system for $\mathbb{R}^3$ and can be written more generally in terms of gradients of the component functions $\varphi_1$ and $\varphi_2$. Thus:
+
+$$
+|\nabla \varphi_1 | = |\nabla \varphi_2 | \;\; \text{and} \;\; \langle \nabla \varphi_1 , \nabla \varphi_2 \rangle = 0
+$$
+A Euclidean map that satisfies Equation~\ref{eq:2} is called \textit{horizontally weakly conformal}. Hence, a map $\varphi$ is \textit{horizontally weakly conformal} [Cf. \S~\ref{sec:HWC}] if and only if the gradients of its real and imaginary parts are mutually orthogonal and have the same norm for each $x \in \mathbb{R}^m$. 
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{An Implicit Definition}
+\begin{theorem}Let $G: A \rightarrow \mathbb{C}$ be a smooth function on an open subset of $\mathbb{R}^3 \times \mathbb{C}$ which is holomorphic in the second variable. Suppose that
+\begin{align*}
+    \nabla G \equiv \left(\frac{\partial G}{\partial x_1}, \frac{\partial G}{\partial x_2}, \frac{\partial G}{\partial x_3} \right) \neq 0 
+\end{align*}
+$\forall (\boldsymbol{x} , z) \in$ A  with $G( \boldsymbol{x}, z) = 0$. Then a smooth solution $\varphi: U \rightarrow \mathbb{C}$ on an open subset of $\mathbb{R}^3$ to the equation
+
+\begin{equation}\label{eq:3}
+    G(\boldsymbol{x} , \varphi(\boldsymbol{x})) = 0
+\end{equation}
+
+for $\boldsymbol{x} \in U$, satisfies  
+
+\begin{align}\label{eq:4}
+    \begin{tabular}{c c c}
+         (a) \displaystyle{\sum_{i=1}^3 \frac{\partial^2 \varphi}{ \partial x_i^2}} = 0, & \text{and} & (b) \displaystyle{\sum_{i=1}^3 \left(\frac{\partial \varphi}{ \partial x_i} \right)^2} = 0  \\
+    \end{tabular}
+\end{align}
+
+if and only if $G$ satisfies the corresponding equations:
+
+\begin{align}\label{eq:5}
+    \begin{tabular}{c c c}
+         (a) \displaystyle{\sum_{i=1}^3 \frac{\partial^2 G}{ \partial x_i^2}} = 0, & \text{and} & (b) \displaystyle{\sum_{i=1}^3 \left(\frac{\partial G}{ \partial x_i} \right)^2} = 0  \\
+    \end{tabular}
+\end{align}
+\end{theorem}
+\begin{proof}
+Suppose that $\varphi : U \rightarrow \mathbb{C}$ is a solution to Equation~\ref{eq:3} on some open subset $U \subset \mathbb{R}^3$. Then by the chain rule, we have at all point (\boldsymbol{x} , z) = $(\boldsymbol{x} , \varphi(\boldsymbol{x}))$ with $\boldsymbol{x} \in U$,
+
+\begin{align}\label{eq:6}
+    \frac{\partial G}{\partial z} \frac{\partial\varphi}{\partial x_i} + \frac{\partial G}{\partial x_i} = 0
+\end{align}
+
+for $i=1 , 2 , 3$. Then since $\nabla G \neq 0 $ implies $\frac{\partial G}{ \partial z} \neq 0$. Then squaring and adding the three cases $i = 1 , 2, 3$, we get
+
+\begin{align}\label{eq:7}
+    \sum_{i=1}^3 \left(\frac{\partial G}{ \partial x_i} \right)^2 = - \left(\frac{\partial G}{\partial z}  \right)^2 \sum_{i=1}^3 \left(\frac{\partial \varphi}{ \partial x_i} \right)^2
+\end{align}
+
+Then differentiating Equation~\ref{eq:6} with respect to $x_i$ gives us 
+
+\begin{align}\label{eq:8}
+    \frac{\partial^2 G}{\partial z^2}\left(\frac{\partial \varphi}{\partial x_i}\right)^2 + \frac{\partial^2 G}{\partial x_i \partial z}\frac{\partial \varphi}{\partial x_i} + \frac{\partial G}{ \partial z} \frac{\partial^2 \varphi}{\partial x_i^2} + \frac{\partial^2 G}{\partial x_i^2} = 0
+\end{align}
+
+for $i=1,2,3$. Now, applying 1.1.3 and adding up the three cases, we get:
+
+\begin{align}\label{eq:9}
+    \sum_{i=1}^3 \frac{\partial^2 G}{\partial x_i \partial z}\frac{\partial \varphi}{\partial x_i} = 0
+\end{align}
+
+Then differentiation with respect to $z$ in congress with Equation~\ref{eq:6} gives:
+
+\begin{align}\label{eq:10}
+\frac{\partial G}{ \partial z}\sum_{i=1}^3 \frac{\partial^2 G}{\partial x_i \partial z}\frac{\partial \varphi}{\partial x_i} = -\sum_{i=1}^3 \frac{\partial G}{\partial x_i}\frac{\partial^2 G}{\partial x_i \partial z}
+=-\frac{1}{2}\frac{\partial}{\partial z} \sum_{i=1}^3 \left(\frac{\partial G}{\partial x_i}  \right)^2 =0
+\end{align} 
+
+So Equation~\ref{eq:9} along with Equation~\ref{eq:7} shows that Equation~\ref{eq:4}(b) holds $\Leftrightarrow$ Equation~\ref{eq:5}(b) holds.
+
+Summing Equation~\ref{eq:8} for $i=1,2,3$ and using Equation~\ref{eq:4}(b) and the fact that since $\frac{\partial G}{\partial z} \neq 0$ implies $\sum_{i=1}^3 \frac{\partial^2 G}{\partial x_i \partial z}\frac{\partial \varphi}{\partial x_i} = 0$ from Equation~\ref{eq:10}.
+
+Then summing Equation~\ref{eq:8}  
+
+\begin{align}\label{eq:11}
+    \sum_{i=1}^3 \frac{\partial^2 G}{\partial x_i^2} = -\frac{\partial G}{\partial z} \sum_{i=1}^3 \frac{\partial^2 \varphi}{\partial x_i^2}
+\end{align}
+
+Which shows Equation~\ref{eq:4}(a) $\Leftrightarrow$ Equation~\ref{eq:5}(a).
+\end{proof}
+\subsection{A Special G} \label{sec: SpecialG}
+\begin{definition}
+Let $V$ be an open subset of $\mathbb{C}$. By a (nowhere zero) null holomorphic map $\boldsymbol{\xi}: V \rightarrow \mathbb{C}^3$, we mean a triple $\boldsymbol{\xi} = (\xi_1 , \xi_2. \xi_3)$ of holomorphic function $\xi_i: V \rightarrow \mathbb{C}$ such that 
+\begin{align}\label{eq:12}
+    \begin{tabular}{c c c}
+         (a) \displaystyle{\sum_{i=1}^3 \xi_i(z)^2 = 0}, & \text{and} & (b) \displaystyle{\sum_{i=1}^3 |\xi_i(z)|^2 \neq 0}  \\
+    \end{tabular}
+\end{align}
+for all $z \in V$.
+\end{definition}
+
+Given such a triple, consider the equation 
+\begin{align}\label{eq:13}
+    \xi_1(z) x_1 + \xi_2(z) x_2 + \xi_3(z) x_3 = 1
+\end{align}
+
+Now define $G$ as follows:
+\begin{align}\label{eq:14}
+    G(\boldsymbol{x} , z) \equiv G(x_1 , x_2 , x_3, z) = \xi_1(z) x_1 + \xi_2(z) x_2 + \xi_3(z) x_3 - 1
+\end{align}
+As $z$ varies in $V$, Equation~\ref{eq:13} defines a two parameter family of straight lines, the two parameters corresponding to $\mathfrak{Re}(z)$ and $\mathfrak{Im}(z)$, respectively. if $\partial G/\partial z \neq 0$ at a point $(\boldsymbol{x}, z)$, the congruence forms a smooth foliation in a neighbourhood of that point. Any smooth local solution $\varphi: U \rightarrow \mathbb{C}$ to Equation~\ref{eq:13} has these lines as fibres. That is to say, the fibre $\varphi^{-1}(z)$ is given by the part of the line 1.2.8 which lines in $U$, and the dilation $\lambda$ of $\varphi$ is given by
+\begin{align}\label{eq:15}
+    \lambda = \frac{|\nabla G|}{\sqrt{2}|\partial G / \partial z|}
+\end{align}
+\vspace{1cm}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 12cm]{FoliationGraphicupdate.png}
+    \caption{Foliation of Domain}
+    \label{fig:Foliation}
+    \end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Harmonic morphisms from $\mathbb{R}^3$ to $\mathbb{R}^2$}
+There is a fruitful overlap of the theory of harmonic morphisms with that of study of minimal surfaces.
+
+First, we must loosen the conditions on our special G of \S~\ref{sec: SpecialG} to the case when the $\xi_i$ are meromorphic functions instead of strict holomorphic functions. In this case, each $\xi_i =\frac{\eta_i}{\zeta}$ where both $\eta_i$ and $\zeta$ are holomorphic and $\zeta$ is zero exactly at all the points where $\xi_i$ have poles, a set we will call $Z$. Then restricting ourselves to $V\setminus Z$ and going back to 1.2.2, we get 
+\begin{align}\label{eq:16}
+    \eta_1(z) x_1 + \eta_2(z) x_2 + \eta_3(z) x_3 = \zeta(z)
+\end{align}
+
+Triples of meromorphic functions $\xi_i$ satisfying 1.2.1 occured in the Enneper-Weierstrass representation of minimal surfaces. This is classically given as follows:
+
+\begin{align}\label{eq:17}
+    \boldsymbol{\xi} = \frac{1}{2h}\big(-2g, 1 - g^2, i(1+g^2)    \big)
+\end{align}
+So letting $\xi_1(z) = -2g(z), \xi_2(z) = 1 - g(z)^2$ and $\xi_3(z) = i(1+g(z)^2)$, we get the following variant of 1.2.3:
+\begin{align}\label{eq:18}
+G(\boldsymbol{x} , z) = -2g(z) x_1 + (1 - g(z)^2) x_2 + i(1 + g(z)^2) x_3 - 2h(z)
+\end{align}
+\begin{theorem}
+(Local representations of harmonic morphisms on $\mathbb{R}^3$) Let $g$ and $h$ be meromorphic functions on $V$ which are not identically infinite and which satisfy:
+\begin{align}\label{eq:18}
+    \lim _{z\rightarrow z_0} h(z)/g(z)^2 = L
+\end{align}
+Where $z_0$ is a pole of $h$ and $L \in \mathbb{R}$
+Then \begin{enumerate}
+    \item any smooth local solution $\varphi:U \rightarrow \mathbb{C}, z = \varphi(x)$ to the equation
+    \begin{align}\label{eq:19}
+        -2g(z) x_1 + (1 - g(z)^2) x_2 + i(1 + g(z)^2) x_3 = 2h(z)
+    \end{align}
+    on a convex open set is a submersive harmonic morphism with connected fibres not all in the direction of the negative $x_1$ axis;
+    \item each such harmonic morphism is given in this way for unique $g$ and $h$;
+    \item let $(\boldsymbol{x}_0, z_0) \in \mathbb{R}^3 \times V$. Then local soultion $z = \varphi(\mathbf{x})$ to equation Equation~\ref{eq:19} exists if and only if at $(\boldsymbol{x}_0, z_0)$
+    \begin{align}\label{eq:20}
+        \partial G/ \partial z \equiv g^{'}(z)(-2 x_1 - 2 g(z) x_2 + i 2g(z) x_3) - 2h^{'}(z) \neq 0
+    \end{align}
+    
+\end{enumerate}
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Examples}
+\begin{example}
+(Orthogonal Projection) Let $g\equiv 0$ and $h=\frac{1}{2}z$, then 1.3.5 looks like:
+\begin{align}\label{eq:21}
+    x_2 + ix_3 = z
+\end{align}
+The solution $\varphi: \mathbb{R}^3 \rightarrow \mathbb{C}$ is clearly
+\begin{align*}
+    z=\varphi(x_1, x_2, x_3) = x_2 + ix_3
+\end{align*}
+As a map, $\varphi$ constitues othrogonal projection of points in $\mathbb{R}^3$ on the $x_1=0$ plane.
+\end{example}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 10cm]{Orthog_proj.png}
+    \caption[Orthogonal Projection]{ \textbf{Orthogonal Projection:}  \small (i) The map $\varphi$ mapping a point $(x_1, x_2, x_3)$ orthogonally onto the $x_1=0$ plane. (ii) The preimage (fibre) under $\varphi$ of a point $(x_2, x_3)$ is a line in $\mathbb{R}^3$  }
+    \label{fig:Orthog}
+\end{figure}
+
+\begin{example}
+(Radial Projection) Let $g, h : \mathbb{C}\cup \{\infty\} \rightarrow \mathbb{C} \cup \{\infty\}$ such that
+\begin{align*}
+g(z) = z \; , \; h \equiv 0    
+\end{align*}
+Then equation 1.3.5 looks like
+\begin{align}\label{eq:22}
+    -2z x_1 + (1 - z^2) x_2 + i(1 + z^2) x^3 = 0
+\end{align}
+This can be written as a quadratic in $z$, yielding
+\begin{align}\label{eq:23}
+    (x_2 - i x_3) z^2 + 2x_1z  -(x_2 + ix_3) = 0
+\end{align}
+
+The solution $\varphi(\boldsymbol{x})$ is
+
+\begin{align*}
+    \varphi(\boldsymbol{x}) &= \frac{-2x_1 \pm \sqrt{4x_1^2 + 4(x_2+ix_3)(x_2-ix_3)}}{2(x_2 - ix_3)}\\
+    &=\frac{-x_1 \pm \sqrt{x_1^2 + x_2^2 + x_3^2}}{x_2 - ix_3} \\
+    &=\frac{-x_1 \pm |\boldsymbol{x}|}{x_2 - ix_3}
+\end{align*}
+\end{example}
+
+Choosing the positive solution, it can be seen that
+
+\begin{align}\label{eq:24}
+     \varphi(\boldsymbol{x}) = \frac{-x_1 + |\boldsymbol{x}|}{x_2 - ix_3} = \sigma \left(\frac{\boldsymbol{x}}{| \boldsymbol{x}|} \right)
+\end{align}
+where $\sigma: S^2 \rightarrow \mathbb{C} \cup \{ \infty \}$ is stereographic projection from the south pole. Since $\sigma^{-1}$ is a conformal map it is clear $\sigma^{-1} \circ \varphi$ is a harmonic morphism and $\boldsymbol{x} \mapsto \frac{\boldsymbol{x}}{| \boldsymbol{x}|}$ i.e. $\sigma^{-1} \circ \varphi$ is equivalent to radial projection to the origin.
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 12cm]{Radial_Proj.jpg}
+    \caption[Radial Projection]{ \textbf{Radial Projection:}  \small (i) The map $\sigma^{-1}\circ \varphi$ is equivalent to radial projection about the origin (ii) The preimage (fibre) under $\sigma^{-1}\circ\varphi$ of a point $\frac{\boldsymbol{x}}{| \boldsymbol{x}|} \in S^2$ is a line in $\mathbb{R}^3$ projecting radially from the origin and containing the lift of the point $\frac{\boldsymbol{x}}{| \boldsymbol{x}|}$ }
+    \label{fig:Orthog}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Distributions and Vector Bundles}
+
+Here we develop some of the machinery of manifold calculus, addressing the theory of distributions, curvature, vector bundles, and induced connections. A good deal of the theory of distributions is laid out in \cite{SubRiem}, here only modified to suite its application to harmonic morphisms and their associated horizontal and vertical distributions. As seen in \cite{SubRiem}, all the theory below can be developed for a more general distribtuion $\mathcal{D}$ and its orthogonal complement $\mathcal{D}^\perp$. The discussion of vector bundles and their induced connections furthermore is drawn primarily from \cite{BairdWood}. 
+
+\subsection{Distributions}
+\begin{definition}
+(Affine Connection) Let $M$ be a smooth manifold and let $\Gamma(\text{T}M)$ denote the sections (vector fields) of the tangent bundle over $M$. An \textit{affine connection} is a bilinear map
+\begin{align*}
+\Gamma(\text{T}M) &\times \Gamma(\text{T}M) \rightarrow \Gamma(\text{T}M) \\
+&(X , Y) \mapsto \nabla_X Y
+\end{align*}
+with the following properties:
+\begin{enumerate}
+    \item $\nabla_{fX}Y = f \nabla_X Y$
+    \item $\nabla_X (fY) = df (X) Y + f \nabla_X Y$
+\end{enumerate}
+\end{definition}
+\begin{remark}
+The first property indicates that the affine connection is $\mathcal{C}^\infty(M , \mathbb{R})$-linear in the first slot and the second property indicates that the affine connection follows a Liebniz rule.
+\end{remark}
+\begin{definition}
+(Levi-Civita Connection) Let $(M, g)$ be a Riemannian manifold with metric $g$. An affine connection is called a \textit{Levi-Civita connection} if it satisfies the following two properties:
+\begin{enumerate}
+    \item the connection preserves the metric: $\nabla g = 0$
+    \item the connection is torsion-free: $\nabla_X Y - \nabla_Y X = [ X, Y]$, where $X, Y \in \Gamma(\text{T}M)$ and $[ \cdot, \cdot ]$ is the Lie bracket.
+\end{enumerate}
+\end{definition}
+\subsubsection{Connection induced on $\mathcal{H}$ by $(M , g, \nabla)$}
+Using the Levi-Civita connection $\nabla$ in $(M,g)$ and the projection $\pi^\mathcal{H}: \text{T}M \rightarrow \mathcal{H}$, one can define a covariant derivative between sections of $\mathcal{H}$ in the following way:
+\begin{align*}
+    \nabla^\mathcal{H}:\; &\Gamma(\mathcal{H}) \times \Gamma(\mathcal{H}) \rightarrow \Gamma(\mathcal{H}) \\
+    &(X , Y) \mapsto \pi^\mathcal{H} (\nabla_X Y)
+\end{align*}
+this covariant derivative is called the \textit{intrinsic connection} of the distribution $\mathcal{H}$ in the Riemannian manifold $(M , g)$. The intrinsic connection satisfies the standard properties of an affine connection
+\begin{enumerate}
+    \item $\nabla^\mathcal{H}_{f X}Y = f\nabla^\mathcal{H}_{X}Y$
+    \item $\nabla^\mathcal{H}_X( f Y) = df(X) Y + f \nabla^\mathcal{H}_X Y$
+\end{enumerate}
+\begin{remark}
+Notice that the intrinsic connection is not torsion-free with respect to the Lie bracket in the manifold $M$. The torsion of $\nabla^\mathcal{H}$ for $X,Y \in \Gamma(\mathcal{H})$ is given by:
+\begin{align*}
+    T(X,Y) = \nabla^\mathcal{H}_X Y - \nabla^\mathcal{H}_Y X - [X ,Y] = -\pi^\mathcal{V}([X, Y])
+\end{align*}
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Second Fundamental Form of $\mathcal{H}$}
+\begin{definition}
+The \textit{second fundamental form} of $\mathcal{H}$ is the map
+\begin{align}\label{eq:26}
+    B : \; &\Gamma(\mathcal{H}) \times \Gamma(\mathcal{H}) \rightarrow \Gamma(\text{T}M) \\
+    &(X,Y) \mapsto \nabla_X Y - \nabla^\mathcal{H}_X Y = \pi^\mathcal{V}(\nabla_X Y)
+\end{align}
+The second fundamental form satisfies the following properties:
+\begin{enumerate}
+    \item $B$ is $\mathcal{C}^\infty(M)-$bilinear and takes values in $\Gamma(\mathcal{V})$
+    \item By the above definition, we get the \textit{Gauss formula}
+    \begin{align*}
+        \nabla_X Y = \nabla^\mathcal{H}_X Y + B(X,Y)
+    \end{align*}
+    \item Let $\{e_i\}_{i=1}^{m-n}$ be a local orthonormal basis of $\Gamma(\mathcal{V})$, then:
+    \begin{align*}
+        B(X,Y) = \sum_{i=1}^{m -n} g\big( B(X,Y) , e_i \big) e_i
+    \end{align*}
+\end{enumerate}
+\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Curvature}
+\subsubsection{Symmetry of $B(X,Y)$ and Integrability}
+The second fundamental form of $\mathcal{H}$ given by Equation~\ref{eq:26} can be decomposed into symmetric and anti-symmetric components:
+
+\begin{align}\label{eq:27}
+    B^s(X,Y) = \frac{1}{2}(B(X,Y) + B(Y,X))  \\
+    B^a(X,Y) = \frac{1}{2}(B(X,Y) - B(Y,X)) 
+\end{align}
+where $X,Y \in \Gamma(\mathcal{H})$. Thus, $B(X,Y) = B^s(X,Y) + B^a(X,Y)$
+
+\begin{corollary}
+The distribution $\mathcal{H}$ is involutive if and only if its second fundamental form $B$ is symmetric
+
+\begin{proof}
+($\Rightarrow$) Let $\mathcal{H}$ be involutive. Then it's closed under the Lie bracket. Hence, $\forall X,Y \in \Gamma(\mathcal{H})$, we have $[X,Y] \in \Gamma(\mathcal{H})$. Then observe that
+
+\begin{align*}
+    B^a(X,Y) = \frac{1}{2} \pi^{\mathcal{V}}([X,Y])
+\end{align*}
+Hence, since $[X,Y]$ is horizontal, gives $\pi^{\mathcal{V}}([X,Y]) = 0 $. Thus $B(X,Y)$ is symmetric \\
+
+($\Leftarrow$) Similarly, assuming $B(X,Y)$ is symmetric means $ [X,Y] \in \Gamma(\mathcal{H})$ for all $X,Y \in \Gamma(\mathcal{H})$. Thus,  $\mathcal{H}$ is involutive by definition.
+\end{proof}
+\end{corollary}\\
+\vspace{1cm}
+Thus, by virtue of the Frobenius theorem, we can see that the distribution $\mathcal{H}$ is integrable $\iff$ $B(X,Y)$ is symmetric.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Mean Curvature}
+\begin{definition}
+Let $B^{\mathcal{V}}$ be the second fundamental form of the distribution $\mathcal{V}$ (cf: \hyperref[eq:26]{4.2.1, 4.2.2}). Then by the \textit{mean curvature of $\mathcal{V}$}, is meant the vector field
+
+\begin{align}\label{eq: meanC}
+    \mu^{\mathcal{V}} = \frac{1}{q} \text{Tr} \; B^{\mathcal{V}} = \frac{1}{q} \sum_{r=1}^q \pi^{\mathcal{H}}(\nabla_{e_r} e_r)
+\end{align}
+where $\{ e_1 , \dots , e_r \}$ is a \textit{local moving frame} for $\mathcal{V}$.
+\end{definition}
+
+\begin{definition}
+A distribution $\mathcal{V}$ on $M$ is said to be
+\begin{enumerate}[(i)]
+    \item \textit{minimal}, if, for each $x \in M$, the mean curvature vanishes.
+    \item \textit{totally geodesic}, if, for each $x \in M$, the symmetric component of the second fundamental form $B_x^{\mathcal{V} , s}$ vanishes.
+    \item \textit{umbilic} if, for each $x \in M$, the normal curvature $B^{\mathcal{V}}_x (V, V)$ in direction $V$ is independent of $V \in \mathcal{V}_x$ for $|V| = 1$.
+\end{enumerate}
+\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Connections Over Vector Bundles}
+Now that we have presented the theory of connections over the tangent bundle $\text{T}M \overset{\pi}{\longrightarrow} M$ as well as those induced on the distributions $\mathcal{H}$ and $\mathcal{H}^\perp = \mathcal{V}$, we now aim to generalize the process even further, looking at connections induced over more general vector bundles.
+
+\begin{definition}
+Let $E \overset{\pi}{\longrightarrow} M$ be a smooth vector bundle over a smooth manifold $M$ (i.e. $E$ has a vector space structure). A connection $\nabla = \nabla^E$ on $E$ is a map $\nabla: \Gamma(\text{T}M) \times \Gamma(E) \rightarrow \Gamma(E)$ such that for $X \in \Gamma(\text{T}M)$ and $\sigma \in \Gamma(E):$
+\begin{align}
+    (X, \sigma) \mapsto \nabla_X \sigma
+\end{align}
+This connection over the vector bundle has the usual properties of a connection. Thus, given $f \in \mathcal{C}^\infty(M)$ we have:
+\begin{align}
+    \nabla_{fX} \sigma = f \nabla_X \sigma \hspace{.5cm} , \hspace{.5cm} \nabla_X(f \sigma) = X(f) \sigma + f \nabla_X \sigma
+\end{align}
+\end{definition}
+\subsubsection{Induced Connections} \label{sec:indConnect}
+Given connections $\nabla^E$ and $\nabla^F$ on vector bundles  $E \overset{\pi^E}{\longrightarrow} M$ and  $F \overset{\pi^F}{\longrightarrow} M$, we can define connections over various other vector bundles which are derived from these original bundles.
+
+\begin{example}
+(Connection on dual bundle) Let $E^*=\hom(E, \mathbb{R})$ be the dual space of $E$. Then we can define the dual bundle as $E^* \overset{\pi^{E^*}}{\longrightarrow} M$ and its associated connection $\nabla^{E^*}$ as follows: Let $\theta \in \Gamma(E^*)$ and $\sigma \in \Gamma(E)$, then
+\begin{align}
+    (\nabla_X \theta)\sigma = X(\theta(\sigma)) - \theta (\nabla _X^E \sigma)
+\end{align}
+\end{example}
+\begin{example}
+(Connection on \textit{bundle of linear maps}) Consider the vector bundle\\ ${\hom(E, F) \overset{\pi}{\longrightarrow} M}$. Then for $\theta \in \Gamma(\hom(E,F))$ and $\sigma \in \Gamma(E)$, the induced connection is as follows:
+\begin{align}\label{eq:HomConnect}
+    (\nabla_X \theta) \sigma = \nabla_X^F(\theta(\sigma)) - \theta(\nabla_X^E \sigma)
+\end{align}
+\begin{remark}
+Notice that equation Equation~\ref{eq:HomConnect} follows naturally from the product rule:
+$$
+\nabla_X^F(\theta(\sigma)) = (\nabla_X\theta)\sigma + \theta(\nabla_X^E\sigma)
+$$
+\end{remark}
+\end{example}
+\begin{example}
+(Connection on the pull-back bundle) Let $\varphi: M \rightarrow N$ be a smooth map between smooth manifolds and let $W \overset{\pi}{\longrightarrow} N$ be a vector bundle over $N$. Then the pull-back bundle is the vector bundle $\varphi^{-1}W \overset{\pi}{\longrightarrow} M$ with typical fibre $(\varphi^{-1}W)(x) = (W \circ \varphi)(x)$ for $x \in M$. The induced \textit{pull-back connection} $\nabla^\varphi$ is the unique linear connection on the pull-back bundle such that, for each $\sigma \in \Gamma(W)$,
+\begin{align}
+    \nabla_X^\varphi (\varphi^* \sigma) = \nabla^W_{\diff \varphi (W)}(\sigma)
+\end{align}
+where $\varphi^*(\sigma) = \sigma \circ \varphi \in \Gamma(\varphi^{-1}W)$.
+\end{example}
+
+
+\subsection{Second Fundamental Form of a Map and the Tension Field}\label{sec:2FFofPhi}
+
+Using the connections developed in \S~\ref{sec:indConnect}, we can derive a corresponding second fundamental form for the map $\varphi$.
+
+\begin{definition}
+Let $M := (M^m, g)$ and $N := (N^n, h)$ be Riemannian manifolds and let $\varphi:M \rightarrow N$ be a smooth map. Note that the differential of $\varphi$ can be viewed as a section of $T^*M \otimes \varphi^{-1}TN$ (tensor product bundle) over $M$. There is a connection associated to this bundle derived from the Levi-Civita connection $\nabla^M$ on $M$ and the pull-back connection $\nabla^\varphi$ [Cf. \S~\ref{sec:indConnect}], which we will simply refer to as $\nabla$. After applying this connection to the differential of $\varphi$, we obtain \textit{the second fundamental form of} $\varphi$. So let $X, Y \in \Gamma(\text{T}M)$ then:
+\begin{align}
+    \nabla \diff \varphi (X, Y) = \nabla_X^\varphi(\diff \varphi(Y)) - \diff \varphi(\nabla_X^M Y)
+\end{align}
+\end{definition}
+
+With the second fundamental form of $\varphi$, we can now define the \textit{tension field} of $\varphi$, which in some sense is a generalization of the Laplacian, but now defined for a general higher dimensional manifold map $\varphi$ as opposed to just a scalar function. 
+
+\begin{definition}
+Let $\varphi: M \rightarrow N$ be a smooth map between Riemannian manifolds. Then \textit{the tension field} $\tau(\varphi)$ viewed as a section of the pull-back bundle $\varphi^{-1}TN$ is defined as
+\begin{align}
+    \tau(\varphi) = \text{Tr} \;\Dd \varphi = \sum_{i=1}^m \Dd \varphi(E_i, E_i)
+\end{align}
+where $\{E_i\}$ is an orthonormal frame of $M$, Tr is the trace, and $\Dd \varphi$ is the second fundamental form of $\varphi$.
+\end{definition}
+
+
+\section{Harmonic Morphisms over Riemannian Manifolds}
+In this section we generalize the theory laid out in \S~\ref{Sec: EuclHM} to maps between Riemannian manifolds. An important distinction between the Euclidean and Riemannian cases is that, due to underlying curvature of manifolds involved, the conformality (angle-perserving property) of the map $\varphi$ plays a more conspicuous role.
+We will be looking at horizontally weakly conformal maps and harmonic maps, and detailing how they relate to harmonic morphisms over Riemannian manifolds. We then finally arrive at the fundamental equation of harmonic morphisms, which will allow us to posit a few insightful characterizations of harmonic morphisms.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Basic Definitions}
+\begin{definition} \label{def: RiemHM}
+(Harmonic Morphism between Riemannian manifolds) Let $(M,g)$ and $(N,h)$ be manifolds with their associated Riemannian metrics (symmetric, positive-definite). A map $\varphi: M \rightarrow N$ is called a \textit{harmonic morphism} if for any harmonic function $f: U\subseteq N \rightarrow \mathbb{R}$, defined on an open subset $U$ of $N$ with $\varphi^{-1}(U) \subseteq M$ non-empty, $f \circ \varphi: \varphi^{-1}(U) \rightarrow \mathbb{R}$ is a harmonic function.
+\end{definition}
+This is precisely the same definition seen in \S~\ref{Sec: EuclHM}, simply generalized to Riemannian manifolds. Despite the seeming lack of reference to the metrics on $M$ and $N$, it's important to note that the Laplacian is metric dependent:
+\begin{remark}\label{Remark: RiemLapl}
+For instance, if $M = \mathbb{R}^m$ then the expression for the Laplacian is the familiar:
+$$
+\Delta f = \sum_{k=0}^{m} \frac{\partial^2f}{\partial x_i^2}
+$$
+Otherwise, the expression for the Laplacian depends on the metric $g$ on $M$. Thus given a coordinatization of $M$ $(x_1, \dots , x_m)$, the Laplacian can be generally expressed (using the Einstein summation convention):
+$$
+\Delta f = \frac{1}{\sqrt{|g|}}\partial_i\left(\sqrt{|g|}g^{ij}\partial_j f\right)
+$$
+where $\partial_i :=\frac{\partial}{\partial x_i}, | \cdot |$ denotes the determinant, and $g^{ij}$ is the inverse metric.
+\end{remark}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Horizontally Weakly Conformal Maps (HWC)} \label{sec:HWC}
+As mentioned above, the conformality of $\varphi: M\rightarrow N$ plays a more conspicuous role in the Riemannian case. Nonetheless, we do not require $\varphi$ be conformal with respect to the entirety of the tanget bundle T$M$, but rather only on the horizontal subbundle $\mathcal{H} =: (\ker \diff \varphi)^\perp$ which we identity with the orthogonal complement of the kernel of the differential map.
+\begin{definition}
+(Horizontally Weakly Conformal) For $m\geq n$, a non-constant map $\varphi:(M^m, g) \rightarrow (N^n, h)$ and $x \in M$, let $\mathcal{V}_x : = \ker d\varphi_x \subset T_xM$ be the vertical distribution and $\mathcal{H}_x : = \mathcal{V}_x^{\perp} \subset T_xM$ be the horizontal distribution. If $C_{\varphi} := \{ x \in M \;|\; d\varphi_x = 0\}$ and $\hat{M}^m := M - C_{\varphi}$, then $\varphi: (M, g) \rightarrow (N,h)$ is said to be \textit{horizontally (weakly) conformal} if there exists a function $\lambda: \hat{M} \rightarrow \mathbb{R}^+$ such that
+\begin{align*}
+\lambda^2(x) g(X, Y) = h(d\varphi(X) , d\varphi(Y))
+\end{align*}
+for all $X, Y \in \mathcal{H}_x$ and $x \in \hat{M}$. The function $\lambda$ is then extended to the whole of $M$ by setting $\lambda|_{C_\varphi} \equiv 0.$ The extended function $\lambda: M \rightarrow \mathbb{R}_0^+$ is called the \textit{dilation} of $\varphi$.
+\end{definition}
+
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 12cm]{HWC_diagram.png}
+    \caption[HWC Map]{ \textbf{HWC Map:}  \small A horizontally weakly conformal map $\varphi: M \rightarrow N$ is shown. Here $X, Y \in \Gamma(\mathcal{H})$ are horizontal vector fields. Notice first the orthogonal splitting of T$M= \ker \diff \varphi \oplus  (\ker \diff \varphi)^\perp$. Next, notice that while the lengths of the vectors in T$_{\varphi(x)} N$ are scaled by $1/ \lambda$ that the angle $\theta$ is preserved under the differential map $\diff \varphi$.}
+    \label{fig:HWC}
+\end{figure}
+
+\begin{remark}
+$\vec{\nabla} \lambda^2 \in \Gamma(\text{T}M)$, where by $\Gamma(\text{T}M)$ is meant the set of sections of the tangent bundle. On $(\hat{M}^m, g), \mathcal{V} := \{ \mathcal{V}_x \; | \; x\in \hat{M} \}$ and $\mathcal{H} := \{ \mathcal{H}_x \; | \; x\in \hat{M} \}$ are smooth distributions or subbundles of $T\hat{M}$. $\pi^\mathcal{V}$ and $\pi^\mathcal{H}$ will be used to denote the natural projections onto $\mathcal{V}$ and $\mathcal{H}$ at each point $x \in \hat{M}$. On $\hat{M}$ there exists a unique orthogonal splitting of the $\vec{\nabla} \lambda^2$ into vertical and horizontal components:
+$$
+\vec{\nabla} \lambda^2 = \pi^\mathcal{H}(\vec{\nabla} \lambda^2) + \pi^\mathcal{V}(\vec{\nabla} \lambda^2)
+$$
+\end{remark}
+
+A map $\varphi$ whose dilation $\lambda$ is such that its level sets are horizontal submanifolds are special in the typification of harmonic morphisms [Cf. \S~\ref{sec:WPtype}].
+\begin{definition} \label{def: HorHomo}
+(Horizontally Homothetic) A non-constant map $\varphi:(M,g) \rightarrow (N,h)$ is said to be \textit{horizontally homothetic} if it is horizontally conformal and $\pi^\mathcal{H}(\vec{\nabla} \lambda^2) \equiv 0$ on $\hat{M}$.
+\end{definition}
+
+\subsection{Harmonic Maps}
+In this section, we outline the basic theory of harmonic maps. Moving forward, it is necessary to make a  distinction between harmonic functions and harmonic maps. In particular, \textit{harmonic functions} are scalar maps which solve the Laplace equation, whereas \textit{harmonic maps} are maps to higher dimensional manifolds that in a sense solve a higher dimensional analog to the Laplace equation. The problem, of course, is that the Laplacian of a higher dimensional map is not a scalar, but a tensor. This issue is obviated by looking rather at the trace of the second fundamental form of the map as opposed to the Laplacian itself [Cf. \S~\ref{sec:2FFofPhi}].
+
+\begin{definition}
+Let $\varphi: M \rightarrow N$ be a smooth map between Riemannian manifolds and let $x \in M$. Then the \textit{Hilbert-Schmidt norm} $||\diff \varphi_x||$ of its differential at $x$ is defined by
+\begin{align}
+|| \diff \varphi_x||^2 = \sum_{i=1}^m h(\diff \varphi_x(E_i) , \diff \varphi_x(E_i))
+\end{align}
+where $\{E_i\}$  is an orthonormal basis for T$_xM$.
+\end{definition}
+Alternatively, if we define the \textit{pull-back} $\varphi^*h$ of the metric $h$ by 
+\begin{align}
+   \varphi^*h(E,F) =  h(\diff \varphi(E) , \diff \varphi(F))
+\end{align}
+where $E,F \in \Gamma(\text{T}M)$, then we can rewrite the Hilbert-Schmidt norm as
+\begin{align}
+    ||\diff \varphi_x||^2 = \text{Tr}\; \varphi^* h = \sum_{i=1}^m \varphi^*h(E_i ,E_i)
+\end{align}
+
+With this theory in place, we now work toward a definition of a harmonic map.
+\begin{definition}
+The \textit{energy density} of $\varphi$ at a point $x \in M$ is given by the following:
+$$
+e(\varphi) = \frac{1}{2}\| \diff\varphi \|^2
+$$
+where $\diff\varphi$ is the differential map of $\varphi$ and where again $\| \cdot \|^2$ is the Hilbert-Schmidt norm with respect to the induced metric on the bundle $\text{T}^*M \otimes \varphi^{-1}(\text{T}N)$
+\end{definition}
+\begin{definition}
+The \textit{total energy} of $\varphi$ is given by integration over $M$
+$$
+E(\varphi) = \frac{1}{2}\int_M \| d\varphi \|^2 dV
+$$
+where $dV$ is the volume element over $M$.\\
+\end{definition}
+
+
+Let $\mathcal{C}^\infty(M, N)$ denote the space of all smooth maps from $M$ to $N$. A map $\varphi \in \mathcal{C}^\infty(M, N)$ is said to be \textit{harmonic} if it is an \textit{extremal} of the energy functional $E( \cdot; D): \mathcal{C}^\infty(M, N) \rightarrow \mathbb{R}$ over any compact domain $D$ of $M$.\\
+More specifically, let $\{ \varphi_t \}$ be a family of smooth mappings from $M$ to $N$ which depends smoothly on a parameter $t \in (-\epsilon, \epsilon)$ for some $\epsilon \in \mathbb{R}$.  Then the following defines a harmonic map:
+
+\begin{definition}
+Let $\varphi: (M,g) \rightarrow (N,h)$ be a smooth map between Riemannian manifolds. Then $\varphi$ is \textit{harmonic} if 
+\begin{align} \label{eq: EnergyFuncZero}
+    \left.\frac{\diff}{\diff t}E(\varphi_t; D) \right|_{t=0} = 0 
+\end{align}
+for all compact domains $D$ and all smooth variations $\{\varphi_t\}$ of $\varphi$ supported in $D$. 
+\end{definition}
+Now, it can be shown that the left hand side of Equation~\ref{eq: EnergyFuncZero} can be written equivalently as follows:
+\begin{proposition} \label{prop:1stVarEnergy}
+(First variation of the energy) Let $\varphi: M \rightarrow N$ be a smooth map and $\{ \varphi_t\}$ be a smooth variation of $\varphi$ supported in $D$. Then
+\begin{align}
+        \left.\frac{\diff}{\diff t}E(\varphi_t; D) \right|_{t=0} =  -\int_M \varphi^* h\big( v , \tau(\varphi) \big)\; dV
+\end{align}
+where $v(x) := \left.\frac{\partial \varphi_t}{\partial t} (x) \right|_{t=0} \in \Gamma(\varphi^{-1}TN)$ and $\varphi^*h$ is the pull-back metric.
+\end{proposition}
+Thus, observing that in Proposition~\ref{prop:1stVarEnergy}, $\varphi^*h$ as a metric is positive-definite, and assuming $\varphi$ non-constant implies $v$ is non-zero, means the only way the energy functional is identically zero over all compact domains $D \subseteq M$ is for $\tau(\varphi)$ to be identically zero. This leads to the following theorem:
+
+\begin{theorem}\label{th:HarmEq}
+(Harmonic Equation) Let $\varphi: M \rightarrow N$ be a smooth map. Then $\varphi$ is \textit{harmonic} if and only if 
+\begin{align}
+    \tau(\varphi) = 0
+\end{align}
+\end{theorem}
+
+The result of Theorem~\ref{th:HarmEq} is the most useful characterization of harmonic maps and will be used extensively in the derivation of the fundamental equation of harmonic morphisms [Cf. Equation~\ref{eq: FundaEq}].
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Characterization of Harmonic Morphisms over Riemannian Manifolds}
+The following theorem attributed to Fuglede and Ishihara [Cf. \cite{Fuglede} and \cite{Ishihara}] we state here without proof. This characterization of harmonic morphisms over Riemannian manifolds is incredibly useful and ties together all the abovementioned theory of  HWC maps and harmonic maps. 
+\begin{theorem} \label{th:harmM + HWC = HM}
+Let $\varphi: (M^m, g) \rightarrow (N^n, h)$ such that 
+\begin{enumerate}
+    \item $\varphi$ is an harmonic map
+    \item $\varphi$ is horizontally weakly conformal
+\end{enumerate}
+    Then $\varphi$ is a harmonic morphism.
+\end{theorem}
+
+\begin{remark}
+The proof essentially follows the same track as that of Theorem~\ref{th: HMproperties} in the Euclidean case, but requires slightly more advanced mathematical machinery beyond the scope of this thesis. 
+\end{remark}
+
+The following theorem, again stated without proof, relates the dimensions of the manifolds $M$ and $N$ to the submersivity of the map $\varphi$.
+
+\begin{theorem} \label{th: submersion/dimension}
+Let $\varphi:M^m \rightarrow N^n$ be a non-constant horizontally weakly conformal mapping of finite order. Then,
+\begin{enumerate}[(i)]
+    \item if $m < 2n -2$ then $\varphi$ is submersive.
+    \item if $m = 2n -2$ then either $\varphi$ is submersive, or $(m,n) = (2,2), (4,3), (8,5)$ or $(16,9)$ and $\varphi$ has isolated critical points, and the first non-constant term in its Taylor expansion  is a Hopf polynomial map (up to homothety). 
+\end{enumerate}
+\end{theorem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{The Fundamental Equation of Harmonic Morphisms}
+\begin{lemma} 
+(Second fundamental form of an HC submersion \cite{BairdWood}) Let $\varphi : M \rightarrow N$ be a horizontally conformal submersion. Then, for any horizontal vector field $X, Y \in \Gamma(\mathcal{H})$,
+\begin{align}\label{eq: SecFund}
+\Dd \varphi(X, Y) = X(\ln{\lambda}) \diff \varphi(Y) + Y(\ln \lambda) \diff \varphi(X) - g(X,Y) \diff\varphi(\nabla \ln{\lambda})
+\end{align}
+\end{lemma}
+
+\begin{proof}
+Let $\{\overline{E_i} \}$ be an orthonormal frame on an open set of $N$; lift each $\overline{E_i}$ to a horizontal vector field $E_i$ on $M$, then $\lambda E_i$ is an orthonormal frame for the horizontal distribution of $M$. Let $\overline{X}$ and $\overline{Y}$ be vector fields on an open subset of $N$, and $X$ and $Y$ their associated horizontal lifts to $M$. Then, looking at the horizontal projection of the Levi-Civita connection on $M$, we have:
+\begin{align*}
+    \pi^\mathcal{H} \left( \nabla_X Y \right) &= \sum_{i=1}^n g(\nabla_X Y , \lambda E_i) \lambda E_i \\
+    &=\lambda^2\sum_{i=1}^n g(\nabla_X Y ,  E_i)  E_i
+\end{align*}
+We will be developing the right hand side of this equation. So, using the Koszul formula to rewrite the metric expression:
+
+\begin{align*}
+  \frac{\lambda^2}{2} \sum_{i=1}^n &\big\{X\big( g(Y, E_i)  \big) + Y \big( g(E_i, X)  \big) - E_i \big( g(X,Y) \big) &\\ &- g(X , [Y, E_i]) - g(Y, [X, E_i]) + g(E_i [X, Y]) \big\} E_i & \\
+    &
+\end{align*}
+
+Now, using the fact that $\varphi$ is horizontally conformal (i.e. $g(X, Y) = (1/\lambda^2) h(\overline{X}, \overline{Y})$ ) and the naturality of the Lie Bracket (i.e. $\diff \varphi ([X,Y]_x) = [\diff \varphi(X) , \diff \varphi(Y)]_{\varphi(x)} = [\overline{X} , \overline{Y}]_{\varphi(x)}$ ), we get:
+
+\begin{flalign*}
+    \frac{\lambda^2}{2} \sum_{i=1}^n &\Big\{X\Big( (1/\lambda^2) h(\overline{Y}, \overline{E_i})  \Big) + Y \Big( (1/\lambda^2) h(\overline{E_i}, \overline{X})  \Big) - E_i \Big((1/\lambda^2) h(\overline{X}, \overline{Y}) \Big) &\\ &-(1/\lambda^2) h(\overline{X} , [\overline{Y}, \overline{E_i}]) - (1/\lambda^2)h(\overline{Y}, [\overline{X}, \overline{E_i}]) + (1/\lambda^2)h(\overline{E_i} ,[\overline{X}, \overline{Y}]) \Big\} E_i & \\
+    &
+\end{flalign*}
+
+Using the product rule on the first three terms, we get:
+
+\begin{flalign*}
+     \frac{\lambda^2}{2} \sum_{i=1}^n &\Big\{X\Big( 1/\lambda^2\Big) h(\overline{Y}, \overline{E_i})   + (1/\lambda^2)\overline{X}\Big(h(\overline{Y}, \overline{E_i})\Big) \\
+    &+ Y  \Big(1/\lambda^2 \Big) h(\overline{E_i}, \overline{X}) + (1/\lambda^2)\overline{Y}\Big( h(\overline{E_i}, \overline{X})\Big) &\\
+    &- E_i \Big(1/\lambda^2\Big) h(\overline{X}, \overline{Y}) - (1/\lambda^2) \overline{E_i} \Big( h(\overline{X}, \overline{Y})  \Big) &\\ &- (1/\lambda^2)h(\overline{X} , [\overline{Y}, \overline{E_i}]) - (1/\lambda^2)h(\overline{Y}, [\overline{X}, \overline{E_i}]) + (1/\lambda^2)h(\overline{E_i} ,[\overline{X}, \overline{Y}]) \Big\} E_i & \\
+    &
+\end{flalign*}
+
+regathering the terms,
+\begin{flalign*}
+     \frac{\lambda^2}{2} \sum_{i=1}^n &\Big\{
+    X\Big( 1/\lambda^2\Big) h(\overline{Y}, \overline{E_i}) + Y  \Big(1/\lambda^2 \Big) h(\overline{E_i}, \overline{X}) - E_i \Big(1/\lambda^2\Big) h(\overline{X}, \overline{Y})   \Big\} E_i &\\
+   & + \frac{1}{2}\sum_{i=1}^n \Big \{ \overline{X}\Big(h(\overline{Y}, \overline{E_i}) \Big) + \overline{Y}\Big( h(\overline{E_i}, \overline{X}) \Big)   - \overline{E_i} \Big( h(\overline{X}, \overline{Y}) \Big) &\\
+   &- h(\overline{X} , [\overline{Y}, \overline{E_i}]) - h(\overline{Y}, [\overline{X}, \overline{E_i}]) + h(\overline{E_i} ,[\overline{X}, \overline{Y}])  \Big\}E_i&
+\end{flalign*}
+
+Now, observing that $\frac{\lambda^2}{2} X(1/\lambda^2) = \frac{\lambda^2}{2} (-\frac{2}{\lambda^3} X ) = -\frac{1}{\lambda} X = -X(\ln \lambda) $ and using the Koszul formula on the second portion, gives,
+\begin{flalign*}
+     \sum_{i=1}^n &\Big\{
+    -X\big(\ln \lambda\big) h(\overline{Y}, \overline{E_i}) - Y\big(\ln \lambda \big)   h(\overline{E_i}, \overline{X}) + E_i \big(\ln \lambda \big) h(\overline{X}, \overline{Y})   \Big\} E_i &\\
+   & + \sum_{i=1}^n \Big h (\nabla_{\overline{X}} \overline{Y}, \overline{E_i})E_i&
+\end{flalign*}
+
+Using horizontal conformality once again,
+\begin{flalign*}
+     \sum_{i=1}^n &\Big\{
+    -X\big(\ln \lambda\big)(\lambda^2 g(Y, E_i)) - Y\big(\ln \lambda \big)  (\lambda^2 g(E_i, X)) + E_i \big(\ln \lambda \big) (\lambda^2 g(X, Y))   \Big\} E_i &\\
+   & + \sum_{i=1}^n \big \{\lambda^2 g \big((\nabla_{\overline{X}} \overline{Y})^\wedge,  E_i\big) \big\}E_i& \\
+   = \sum_{i=1}^n &\Big\{
+    -X\big(\ln \lambda\big) g(Y, \lambda E_i) - Y\big(\ln \lambda \big)   g(\lambda E_i, X) + (\lambda E_i) \big(\ln \lambda \big)  g(X, Y)   \Big\} (\lambda E_i) &\\
+   & + \sum_{i=1}^n  g \big((\nabla_{\overline{X}} \overline{Y})^\wedge,  \lambda E_i\big)(\lambda E_i)& 
+\end{flalign*}
+
+Now performing the sums,
+\begin{align*}
+- X(\ln \lambda) Y -  Y(\ln \lambda) X +  g(X, Y) (\vec{\nabla} \ln \lambda) + (\nabla_{\overline{X}} \overline{Y})^\wedge 
+\end{align*}
+
+Finally, combining the horizontal lift of the connection in $N$ with the horizontal projection of the connection in $M$, we arrive at:
+\begin{align*}
+    (\nabla_{\overline{X}} \overline{Y})^\wedge  - \pi^\mathcal{H} (\nabla_X Y) =  X(\ln \lambda) Y +  Y(\ln \lambda) X -  g(X, Y) (\vec{\nabla} \ln \lambda)
+\end{align*}
+The left hand side of the equation is equivalent to the horizontal lift of the second fundamental form:
+\begin{align*}
+     (\nabla_{\overline{X}} \overline{Y})^\wedge  - \pi^\mathcal{H} (\nabla_X Y)  = (\nabla \diff \varphi (X, Y))^\wedge
+\end{align*}
+
+Hence applying the differential map $\diff \varphi$ to the above equation gives the result:
+\begin{align*}
+    \Dd \varphi (X, Y) = X( \ln \lambda)\; \diff \varphi (Y) + Y (\ln \lambda)\; \diff \varphi (X) - g(X, Y) \diff \varphi (\vec{\nabla} \ln \lambda)
+\end{align*}
+\end{proof}
+
+\begin{proposition}
+Let $\varphi: M^m \rightarrow N^n$ be a smooth horizontally conformal submersion between Riemannian manifolds of dimensions $m,n \geq 1$. Let $\lambda: M \rightarrow ( 0 , \infty)$ denote the dilation of $\varphi$ and let $\mu^\mathcal{V}$ denote the mean curvature vector fields of it fibres. Then the tension field of $\varphi$ is given by
+\begin{align}\label{eq: TensFieldHarm}
+    \tau(\varphi) = -(n -2)\; \diff \varphi (\vec{\nabla} \ln \lambda ) - (m - n)\; \diff \varphi (\mu^\mathcal{V})
+\end{align}
+\end{proposition}
+
+\begin{proof}
+Let $\{ E_i \}_{i=1}^n$ be a local orthonormal frame for the horizontal distribution $\mathcal{H}$. Then the horizontal trace (the trace restricted to $\mathcal{H} \times \mathcal{H}$) of the second fundamental form can be computed as follows (using Equation~\ref{eq: SecFund}):
+\begin{align*}
+    \text{Tr}^\mathcal{H}\; \Dd \varphi  &= \sum_{i=1}^n \Dd \varphi (E_i, E_i)\\
+    &=\sum_{i=1}^n \big\{E_i( \ln \lambda)\; \diff \varphi (E_i) + E_i (\ln \lambda)\; \diff \varphi (E_i) - g(E_i, E_i) \diff \varphi (\vec{\nabla} \ln \lambda) \big\} 
+\end{align*}
+Observe that sense the $E_i$ are orthonormal that $g(E_i, E_i) = 1$ and that by linearity of the differential map we may write:
+\begin{align*}
+    \diff \varphi\left(\sum_{i=1}^n \big\{2 \:E_i( \ln \lambda)\; E_i -  \vec{\nabla} \ln \lambda \big\} \right) 
+\end{align*}
+
+Observing that $\sum_{i=1}^n  \:E_i( \ln \lambda)\; E_i = \vec{\nabla} \ln \lambda$ , we get the result:
+\begin{align}\label{eq: horTr}
+    (2 - n) \; \diff \varphi ( \vec{\nabla} \ln \lambda ) = - (n - 2) \; \diff \varphi ( \vec{\nabla} \ln \lambda )
+\end{align}
+
+Now, looking at the vertical trace (the trace restricted to $\mathcal{V} \times \mathcal{V}$) of the second fundamental form  and letting $\{U_i \}_{i=1}^{m -n}$ be a local orthonormal frame for the vertical distribution $\mathcal{V}$:
+\begin{align*}
+    \text{Tr}^\mathcal{V} \;\Dd \varphi &= \sum_{i=1}^{m - n} \Dd \varphi (U_i, U_i) \\
+    &=\sum_{i=1}^{m - n} \big\{ \nabla_{\diff \varphi (U_i)}^N \diff \varphi(U_i) - \diff \varphi (\nabla_{U_i} ^ M U_i) \big\}
+\end{align*}
+
+Then, since by definition  each $U_i \in \ker \diff \varphi$ ($\diff \varphi (U_i) = 0 \in \text{T}N$) and by linearity of the differential map, we get:
+\begin{align*}
+    -\diff \varphi \left( \sum_{i=1}^{m - n}  \nabla_{U_i} ^ M U_i  \right)
+\end{align*}
+Since only the horizontal components of the vector fields $\nabla_{U_i} ^ M U_i$ survive the differential map, means:
+\begin{align*}
+    -\diff \varphi \left( \sum_{i=1}^{m - n}  \nabla_{U_i} ^ M U_i  \right) = 
+    -\diff \varphi \left( \sum_{i=1}^{m - n} \pi^\mathcal{H} ( \nabla_{U_i} ^ M U_i ) \right)
+\end{align*}
+
+Then by Equation~\ref{eq: meanC}, we have
+\begin{align*}
+    \sum_{i=1}^{m - n} \pi^\mathcal{H} ( \nabla_{U_i} ^ M U_i ) = (m -n) \mu^\mathcal{V}
+\end{align*}
+Then the linearity of the differential map gives us our result:
+\begin{align}\label{eq: vertTr}
+    -(m-n) \; \diff \varphi( \mu^\mathcal{V})
+\end{align}
+
+Finally, by summing Equation~\ref{eq: horTr} and Equation~\ref{eq: vertTr}, we get the trace of the second fundamental form in $M$ which by Equation~\ref{eq: TensFieldHarm} gives us the final result:
+\begin{align*}
+    \tau(\varphi) = -(n -2)\; \diff \varphi (\vec{\nabla} \ln \lambda ) - (m - n)\; \diff \varphi (\mu^\mathcal{V})
+\end{align*}
+\end{proof}
+
+From the above expression for the tension field, we derive the so-called fundamental equation of harmonic morphisms:
+\begin{theorem}
+(Fundamental Equation) Let $\varphi: M^m \rightarrow N^n$ be a smooth non-constant horizontally weakly conformal map between Riemannian manifolds of dimensions $m,n \geq 1$. Then $\varphi$ is harmonic, and thus a harmonic morphism, if and only if, at every regular point, the mean curvature vector field $\mu^\mathcal{V}$ of the fibres and the gradient of the dilation $\lambda$ of $\varphi$ are related by 
+\begin{align} \label{eq: FundaEq}
+      (n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) + (m - n)\;  \mu^\mathcal{V} = 0
+\end{align}
+\end{theorem}
+
+\begin{proof}
+($\Rightarrow$): Let $\varphi$ be a harmonic morphism. Then as stated above, $\varphi$ is considered a harmonic map if the tension field vanishes. Notice that by linearity of the differential map, we may write Equation~\ref{eq: TensFieldHarm} equivalently as:
+\begin{align*}
+\tau(\varphi) = \diff \varphi \Big\{-(n -2)\;  \vec{\nabla} \ln \lambda - (m - n)\;  \mu^\mathcal{V} \Big\}
+\end{align*}
+Recalling that $\mu^\mathcal{V} \in \Gamma({\mathcal{H}})$, notice that
+\begin{align*}
+     \diff \varphi \Big\{-(n -2)\;  \vec{\nabla} \ln \lambda  - (m - n)\;  \mu^\mathcal{V} \Big\} &=  \diff \varphi \Big\{ \pi^\mathcal{H} \Big(-(n -2)\;  \vec{\nabla} \ln \lambda  - (m - n)\;  \mu^\mathcal{V} \Big) \Big\} \\
+     &=  \diff \varphi \Big\{-(n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) - (m - n)\;  \mu^\mathcal{V} \Big\}
+\end{align*}
+
+Since we are interested $\tau(\varphi) \equiv 0$ means that non-trivial solutions occur only on the horizontal component of the vector field. In addition, since the differential $\diff \varphi$ is an isomorphism between $\mathcal{H}$ and $\text{T}N$ implies that the differential $\diff \varphi$ is only zero at zero. Hence, we are strictly interested in the case when:
+\begin{align*}
+    -(n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) - (m - n)\;  \mu^\mathcal{V} \equiv 0
+\end{align*}
+
+$(\Leftarrow)$: Let $ (n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) + (m - n)\;  \mu^\mathcal{V} = 0$. Then by applying the differential map $\diff \varphi$ we get $\tau(\varphi) =0$ which follows from proposition Equation~\ref{eq: TensFieldHarm}. Hence since the tension field vanishes implies by definition that $\varphi$ is harmonic and hence by theorem Theorem~Theorem~\ref{th:harmM + HWC = HM} we have $\varphi$ is a harmonic morphism. 
+
+\end{proof}
+
+\subsubsection{Additional Characterization of Harmonic Morphisms}
+An immediate consequence of the Equation~\ref{eq: FundaEq} is the following theorem attributed to Baird and Eel [Cf. \cite{Bai-Eel}]:
+\begin{theorem}
+Let $m>n\geq 2$ and let $\varphi: (M^m, g) \rightarrow (N^n, h)$ be a horizontally conformal submersion. if \begin{enumerate}
+    \item $n=2$, then $\varphi$ is a harmonic map if and only if $\varphi$ has minimal fibres.
+    \item $n \geq 3$, then two of the following conditions imply the other:
+    \begin{enumerate}
+        \item $\varphi$ is a harmonic map,
+        \item $\varphi$ has minimal fibres,
+        \item $\varphi$ is horizontally homothetic.
+    \end{enumerate}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+The proof follows quite naturally from following the various consequences of Equation~\ref{eq: FundaEq}. 
+\begin{align*}
+      (n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) + (m - n)\;  \mu^\mathcal{V} = 0
+\end{align*}
+
+\textbf{Case 1}: Let $n=2$. Then the fundamental equation reduces to
+\begin{align*}
+        (m - 2)\;  \mu^\mathcal{V} = 0
+\end{align*}
+Since $m>2$ implies the mean curvature of the fibres $\mu^\mathcal{V} = 0$ which means the fibres are minimal.
+
+\textbf{Case 2}: [$(a)$ and $(b) \Rightarrow (c)$] Let $n \geq 3$. Let $\varphi$ be a harmonic map with minimal fibres. Then by Theorem~\ref{th:harmM + HWC = HM} $\varphi$ is a harmonic morphism. Thus, in applying Equation~\ref{eq: FundaEq}, it reduces to
+\begin{align*}
+      (n - 2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda )  = 0
+\end{align*}
+Thus $\pi^\mathcal{H} (\vec{\nabla} \ln \lambda )  = 0$ which means the map is horizontally homothetic in accordance with Definition~\ref{def: HorHomo} since clearly $\pi^\mathcal{H} (\vec{\nabla} \ln \lambda )  = 0$ \Longleftrightarrow\; $\pi^\mathcal{H} (\vec{\nabla} \lambda^2 )  = 0$.\\
+
+\textbf{Case 3}: [$(a)$ and $(c) \Rightarrow (b)$]: Let $\varphi$ be a harmonic map and be horizontally homothetic. Then since $\varphi$ is harmonic implies $\tau(\varphi) = 0$ by Theorem~\ref{th:HarmEq}. Thus, Equation~\ref{eq: FundaEq} must equal zero. Hence, since the map $\varphi$ is horizontally homothetic implies the fundamental equation reduces to
+\begin{align*}
+        (m - 2)\;  \mu^\mathcal{V} = 0
+\end{align*}
+Hence, $\mu^\mathcal{V}=0$ which again means $\varphi$ has minimal fibres.\\
+
+\textbf{Case 4}: [$(b)$ and $(c) \Rightarrow (a)$] Let $\varphi$ have minimal fibres and be horizontally homothetic. Then clearly, $\pi^\mathcal{H}(\vec{\nabla} \ln \lambda) = 0$ by definition of horizontal homothety, and $\mu^\mathcal{V} = 0$ by defintion of $\varphi$ having minimal fibres. Thus,
+\begin{align*}
+      (n -2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) + (m - n)\;  \mu^\mathcal{V} = 0
+\end{align*}
+which implies $\varphi$ is a harmonic morphism, and thus also a harmonic map. 
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Harmonic Morphisms with One-Dimensional Fibres}
+We now turn to harmonic morphisms whose fibers have a one-dimensional relative dimension. While no complete characterization of harmonic morphisms with higher-dimensional fibres currently exists, harmonic morphisms with one-dimensional fibres have been completely typified. One-dimensional fibrations are particularly important for our investigation into the intersection between harmonic morphisms and Milnor fibrations, and so we develop all the required theory to lay out their characterization.
+
+Thus, we will be taking a cursory look at the three types of harmonic morphisms with one-dimensional fibres: Killing type, Warped-product type, and T type. It is important to appreciate from the outset that the three types are not mutually exclusive. There are exmaples of one-dimensionally fibred harmonic morphisms which are both of Killing and Warped-product type, or of Warped-product and T type, however, it is not feasible to have one that is both Killing and T type. Nevertheless, these three types are all three differentiated by the geometric relationship between the level sets of the dilation function, and the integral manifolds of the horizontal and vertical distributions induced by the map $\varphi$. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Definitions}
+\begin{definition} (One-dimensional fibres)
+Let $\varphi: M^{n+1} \rightarrow N^n$ for $n \geq 1$ be a non-constant harmonic morphism. Then, at regular points, the fibres are of dimension 1. Thus, $\varphi$ is a \textit{harmonic morphism with one-dimensional fibres}. 
+\end{definition}
+\begin{remark}
+ Recall from Theorem~\ref{th: submersion/dimension}, that the relationship between the dimensions of $M$ and $N$ indicate the submersivity of $\varphi$. So in the one-dimensional fibre case, if  $n+1 < 2n -2 \Rightarrow n>3$ then $\varphi$ is submersive. If $n=3$ then $\varphi$ has at most isolated singularities. 
+\end{remark}
+
+A useful tool in classifying harmonic morphisms with one-dimensional fibres is by means of the so-called fundamental vertical vector field of $\varphi$.
+\begin{definition} (Fundamental vector field) Let $U \in \Gamma(\mathcal{V})$ be such that $|U| = 1$. Then the \textit{fundamental (vertical) vector field of} $\varphi$ is a a vector field $V \in \Gamma(\mathcal{V})$ such that $|V| = \lambda^{n-2}$. In other words, $V = \lambda^{n-2} U$.
+
+\end{definition}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Killing Type}
+
+The first type  of harmonic morphism with one-dimensional fibres we will discuss is the Killing type. In this type, the fundamental vertical vector fields are Killing vector fields.
+
+\begin{definition}
+Let $X \in \Gamma(\text{T}M)$. We say $X$ is \textit{Killing} if for any $Y, Z \in \Gamma(\text{T}M)$
+\begin{align}
+    g(\nabla_X Y, Z) + g(Y, \nabla_X Z) = 0
+\end{align}
+\end{definition}
+
+In an intuitive sense, what it means for a vector field $X$ to be Killing is that if we take two vectors at point $p$ on the manifold $M$ and displace them infinitesimally in the direction of $X$, that their geometric relationship to one another is preserved (angles and lengths). 
+
+
+\begin{definition}
+Let $\varphi: M^{n+1} \rightarrow N^n$ be a non-constant harmonic morphism with dilation $\lambda$. Say that $\varphi$ is of Killing type if, in a neighborhood of each regular point, the fibres are tangent to a Killing vector field
+\end{definition}
+
+The following proposition makes the implications of the above definition more clear:
+
+\begin{proposition}
+A non-constant harmonic morphism is of Killing type if and only if one of the following equivalent conditions holds on the set of regular points:
+\begin{enumerate}[(i)]
+    \item the fundamental vertical vector field $V$ is a Killing vector field.
+    \item The gradient of the dilation is horizontal ($\pi^\mathcal{V}(\vec{\nabla} \lambda) = 0).$
+    \item the associated foliation is Riemannian.
+\end{enumerate}
+\end{proposition}
+
+Another equivalent way of thinking about $\pi^\mathcal{V}(\vec{\nabla} \lambda) = 0$ is to consider the level sets of the dilation function, which we  here denote $\Lambda_\alpha := \{ x \in M \mid \lambda(x) = \alpha, \alpha \in \mathbb{R}^+\} $. In this case, the level sets of $\lambda$ define submanifolds of $M$. We can think of $\Lambda_\alpha$ as corresponding to a certain vector field. With Killing type harmonic morphisms, the fibres of the map are parallel with the level sets of the dilation function $\lambda(x)$, so that if you flow along a fibre of a Killing type harmonic morphism, you remain on the same level set of the dilation function. Hence, we can equivalently say that for Killing type harmonic morphisms, $\Lambda_\alpha \in \Gamma(\mathcal{V})$ when viewed as a vector field.  
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{KillingType2.png}
+    \caption{\textbf{Killing Type Harmonic Morphisms}: \small A simplified depiction of the geometric relationships between the level sets of the dilation function $\Lambda_\alpha$, horizontal hypersurfaces $\mathcal{H}$, and $F_p := \{ x \in M \mid \varphi(x) = p \;,\; p \in N \}$ (the fibres of the map $\varphi$ at some point $p$)  for a Killing type harmonic morphism. NB: each individual ray corresponds to either a different fibre (blue) or a different level set of $\lambda$ (red). }
+    \label{fig:KillingType}
+    \end{figure}
+
+
+\begin{example}
+The canonical Hopf fibration $S^3 \rightarrow S^2$ is of Killing type. 
+\end{example}
+\begin{example}
+The Hopf polynomial map $\varphi: \mathbb{R}^4 \rightarrow \mathbb{R}^3$:
+\begin{align*}
+    (z_0, z_1) \mapsto (|z_0|^2 - |z_1|^2, 2\bar{z_0}z_1)
+\end{align*}
+is of a Killing type with dilation $\lambda = 2 \sqrt{|z_0|^2 + |z_1|^2}$.
+\end{example}
+
+
+If we look at the Killing type through the lens of Equation~\ref{eq: FundaEq}, we can make the following observation about the mean curvature of the fibres:
+
+First, in order that we have a harmonic morphism, the fundamental equation must hold $(n \geq 3)$:
+\begin{align*}
+    (n - 2)\; \pi^\mathcal{H} (\vec{\nabla} \ln \lambda ) + \;  \mu^\mathcal{V} = 0
+\end{align*}
+Since, in the Killing type, $\pi^\mathcal{V}( \vec{\nabla} \ln \lambda) = 0$ implies $\pi^\mathcal{H}( \vec{\nabla} \ln \lambda) =\vec{\nabla} \ln \lambda $
+Hence,
+\begin{align*}
+    (n - 2)\; \vec{\nabla} \ln \lambda  + \;  \mu^\mathcal{V} = 0
+\end{align*}
+Which gives us,
+\begin{align*}
+    \mu^\mathcal{V} = \vec{\nabla}(- \ln \lambda^{n-2})
+\end{align*}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Warped-Product Type}\label{sec:WPtype}
+\begin{enumerate}
+    \item $\nabla \ln \lambda \in \Gamma\left(\mathcal{V} \right) \Rightarrow \pi^\mathcal{H}(\nabla \ln \lambda) = 0 $
+    \item Due to the fundamental equation, $\pi^\mathcal{H}(\nabla \ln \lambda) = 0$ implies the fibres are minimal and thus (since they are one-dimensional) geodesic. 
+    \item  $\varphi$ is horizontally homothetic
+    \item $\lambda$ is non-constant is a necessary but not sufficient condition for $\mathcal{H}$ to be an integrable distribution 
+\end{enumerate}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{WarpedProductType2.png}
+    \caption{Warped-Product Type}
+    \label{fig:Warped-Product}
+\end{figure}
+
+\subsubsection{Warped-Product Manifolds}
+
+\begin{definition}
+(Warped-Product Manifold) Let $(M, g)$ and $(N,h)$ be Riemannian manifolds, and let $f$ be a positive function on $M$. Consider the product manifold $M\times N$ with the projection maps $\pi^M: M \times N \rightarrow M$ and $\pi^N: M \times N \rightarrow N$. The warped product $W = M\times _{f}N$ is the manifold $M \times N$ equipped with the warped product metric given by
+\begin{align}
+    w = g + f^2 h
+\end{align}
+The function $f$ is called the \textit{warping function} of the warped product and the pair $(W,w)$ is called a \textit{warped product manifold}. 
+\end{definition}
+
+\begin{proposition}
+(Characterization of Warped Products) \begin{enumerate}[(i)]
+    \item The projection $\pi^N$ on to the second factor is a horizontally homothetic submersion with totally geodesic fibres and integrable horizontal distribution. Its dilation at $(x,y) \in M \times_{f} N$ is $1/f(y)$\\
+    \item Conversely, any horizontally homothetic submersion $(M,g) \rightarrow (N,h)$ with totally geodesic fibres and integrable horizontal distribution is locally the projection of a warped product. In fact, if $(M,g)$ is complete, and $M$ and $N$ are simply connected, it is globally such a projection.
+\end{enumerate}
+\end{proposition}
+
+\subsubsection{Warped-Product Type HM}
+
+\begin{lemma}
+Let $\varphi:M^{n+1} \rightarrow N^n$ be a non-constant horizontally homothetic harmonic morphism. If $\vec{\nabla} \lambda$ is non-zero on a dense subset of $M$, then $\varphi$ is of warped-product type.
+\end{lemma}
+
+\begin{definition}
+We say that a family of oriented hypersurfaces is parallel if they form a Riemannian foliation
+\end{definition}
+
+\begin{lemma}
+A family of oriented hypersurfaces is parallel if any of the following equivalent conditions holds:
+\begin{enumerate}[(i)]
+    \item any two nearby hypersufaces are a constant distance apart
+    \item moving along geodesics normal to one of the hypersurfaces by a (small enough) constant distacne locally produces another hypersurface of the family
+    \item the integral curves of the unit vector field normal to the hypersufaces are geodesics
+    \item parallel transport along these integral curves maps the tangent space of one hypersurface to the tangent space of another.
+\end{enumerate}
+\end{lemma}
+
+\begin{proposition}
+Let $\varphi: M^{n+1} \rightarrow N^n \; (n \geq 1)$ be a harmonic morphism of warped-product type. Then
+\begin{enumerate}[(i)]
+    \item the leaves of $\mathcal{H}$ form an isoparametric family of hypersurfaces with each hypersurface umbilic
+    \item the dilation $\lambda$ is an isoparametric function constant on each hypersurface
+\end{enumerate}
+\end{proposition}
+
+Viewing the warped-product type \\
+
+
+Warped-product type harmonic morphisms are perhaps the most fully characterized. In fact in \cite{Gudmund}, it is shown that horizontally homothetic submersions between space forms of arbitrary dimension are completely classified up to isometry of the domain.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Transnormal/Third Type (T Type)}
+\begin{enumerate}
+    \item $\pi^\mathcal{V}(\nabla \ln \lambda) \neq 0$ and/or $\pi^\mathcal{H}(\nabla \ln \lambda) \neq 0$  
+    \item  $\Lambda_\alpha \pitchfork F_p$
+    \item $\mathcal{H}$ and $\mathcal{V}$ are non-integrable
+\end{enumerate}
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{Ttype2.png}
+    \caption{T Type}
+    \label{fig:T Type}
+    \end{figure}
+
+\begin{definition}
+Let $\varphi: M^{n+1} \rightarrow N^n \; (n \geq 1)$ be a non-constant harmonic morphism. We say that $\varphi$ is of type T on $M$ if, on $M \setminus C_\varphi, \; \left| \pi^\mathcal{V}(\vec{\nabla} \lambda) \right|$ is a non-zero constant along each component of the level surfaces of $\lambda$.
+\end{definition}
+
+\begin{remark}
+\begin{enumerate}[(i)]
+    \item The condition $\pi^\mathcal{V}(\vec{\nabla} \lambda) \neq 0$ implies that the level surfaces of $\lambda$ are transversal to the fibres of $\varphi$
+    \item A harmonic morphism is simultaneously of warped-product type and of type T if and only if $\vec{\nabla} \lambda \in \Gamma(\mathcal{V})$ and non-zero.
+\end{enumerate}
+\end{remark}
+
+\begin{lemma}
+Let $\varphi: M^{n+1} \rightarrow N{n}$ for $n \geq 1$ be a harmonic morphism with $\pi^{\mathcal{V}} \neq 0$ on $m \setminus C_\varphi$ where $C_\varphi$ is the set of critical points of $\varphi$. Then $\varphi$ has non-compact fibres. Further, if $n \geq 3$, then $\varphi$ is submersive. 
+\end{lemma}
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{ThreeTypesUpdate.png}
+    \caption{Interrelation of Three Types}
+    \label{fig:Interrelation of Three Types}
+    \end{figure}
+
+
+In the above diagrams:
+\begin{itemize}
+    \item $N$ is the target manifold
+    \item $F_p:= \varphi^{-1}(p)$ is the fibre at $p \in N$
+    \item $\Lambda_\alpha$ is the level-set of $\ln \lambda$ such that $\left| \ln \lambda   \right| = \alpha$ , $\alpha \in \mathbb{R}^+$
+    \item $\mathcal{H}$ is the horizontal distribution induced by $\varphi$
+\end{itemize}
+
+\subsection{Results}
+In the context of Milnor fibrations, the canonical manifolds involved are known as \textit{space forms}. 
+
+\begin{definition}
+A \textit{space form} is a complete Riemannian manifold with constant sectional curvature
+\end{definition}
+The three canonical examples of space forms correspond to when the sectional curvature is $-1, 0$ and $1$, where corresponding space forms are $H^n$ (hyperbolic space), $\mathbb{R}^n$, and $S^n$, respectively. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Milnor Fibration Application}\label{sec: MilnorFib} 
+In this section we survey the basic theory of Milnor fibrations and discuss how harmonic morphisms have a role to play.
+
+\subsection{The Problem}
+Let $G: \mathbb{R}^m \rightarrow \mathbb{R}^n$ with $m \geq n \geq 2$, be a map with isolated critical point at the origin. Let $V_G := G^{-1}(0)$ be the variety defined by the preimage of the zero set of $G$. Let $K_\epsilon := V_G \cap S_\epsilon$, the intersection between the variety defined by the preimage of the zero set of $G$ with a sphere of radius $\epsilon$ $S^{m-1}_\epsilon$, where $\epsilon$ is chosen such that he only critical point of $G$ contained in $S^{m-1}_\epsilon$ is the origin. Suppose $G$ is such that the following diagram commutes with $\varphi$ a submersion and $\Psi|$ a fibration.
+
+\begin{center}
+\begin{tikzcd}\label{fig:MilnorCommuteDia}
+\mathbb{R}^m \setminus V_G \arrow[r, "G"] \arrow[rd, "\Psi", dashed] \arrow[d, "\varphi "'] & \mathbb{R}^n \setminus \{ 0\} \arrow[d, "\pi"] \\
+S^{m-1} \setminus K_\epsilon \arrow[r, "\Psi|"']                                            & S^{n-1}                                       
+\end{tikzcd}
+\end{center}
+
+The fibration $\Psi|$ is often called a Milnor fibration, which under the right conditions produces a topologically non-trivial fibration of the sphere.\\ 
+The question we originally investigated was as follows: Under what assumption could one assert that if $G$ is a harmonic morphism, then $\Psi|$ is also a harmonic morphism, and preferrably one that induces a non-trivial Milnor fibration.\\
+Below in figure~\ref{fig:ExampleCommuteDia} is shown a very simplified picture of how the commutative diagram in  figure~\ref{fig:MilnorCommuteDia} requires a certain compatibility between the maps $G, \varphi,$ and $\pi$. $G$ is shown as some homogeneous map (mapping straight lines to straight lines), and $\varphi$ and $\pi$ as radial projection down to their respective spheres ($S^2$ and $S^1$), meaning the preimage of a point in $S^2$ or $S^1$ under $\varphi$ and $\pi$ is a straight line. \\
+
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width = 15cm]{MilnorFibration.png}
+    \caption{Simplified Example of Commutative Diagram}
+    \label{fig:ExampleCommuteDia}
+    \end{figure}
+
+
+
+The following was already known vis-a-vis the relation between harmonic morphism and Milnor fibrations \cite{BairdOu}:
+\subsubsection{Milnor Fibrations and Harmonic Morphism}
+Let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^n$ be a polynomial map which takes the origin to the origin and where the origin is an isolated critical point. Let $S^{m-1}_\epsilon$ be a sphere about the origin with radius $\epsilon$, where $\epsilon$ is chosen such that the origin is the only critical point contained within the sphere. Milnor has shown how the complement $S^{m-1}_\epsilon \setminus \varphi^{-1}(0)$ fibres over the $(n-1)$-sphere $S^{n-1}$.
+
+The fibration is called \textit{trivial} if and only if each fibre is diffeomorphic to the disc $D^{m-n}$. A necessary condition that the fibration is \textit{non-trivial}
+ is the inequality:
+ \begin{align} \label{eq: MilnorIneq}
+     (m-2) \geq 2 (n-2)
+ \end{align}
+ This can be seen to be equivalent to the dimensionality condition in Equation~\ref{eq:25} with $p = 2$, thus showing the clear connection between Milnor fibrations and quadratic polynomial harmonic morphisms. 
+ 
+For a  \textit{homogeneous} polynomial map $\varphi$, the Milnor fibration is given as
+
+\begin{align}
+    x \mapsto \frac{\varphi(x)}{| \varphi(x)|}
+\end{align}
+
+\begin{theorem}
+Let $\varphi: \mathbb{R}^m \rightarrow \mathbb{R}^n$ be a harmonic morphism defined by homogeneous polynomials of the same degree $p$. The $\varphi$ retracts to a full submersive harmonic morphism (The Milnor Fibration)
+\begin{align}
+    \Phi: S^{m-1} \setminus \varphi^{-1}(0) \rightarrow S^{n-1}
+\end{align}
+whose component functions are the restrictions of irrational functions homogeneous of degree 0.
+\end{theorem}
+
+As remarked above, Milnor fibrations occur when we restrict ourselves to the case $p = 2$. In this case, there are strict limitations to the dimensions $m$ and $n$, and it can be shown that quadratic polynomial harmonic morphisms must map between euclidean spaces of the following dimensions:
+
+
+\begin{center}
+\begin{tabular}{ccccccccccc}
+$n$    & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & $\cdots$ & $n + 8$   \\
+\hline $m(n)$ & 1 & 2 & 4 & 4 & 8 & 8 & 8 & 8 & $\cdots$ & $16 m(n)$
+\end{tabular}
+\end{center}
+
+\indent In \cite{SimpleL} it is shown that the existence of Milnor fibrations inside a ball of small enough radius can be guaranteed when a map is $\L$-analytic.  $\L$-analytic maps are maps which satisfy the strong $\L$ojasiewics inequality.\\
+
+\begin{definition}
+(Strong Lojasiewicz inequality) Let $F = (f_1, \dots, f_m) : \mathcal{U} \subseteq \mathbb{R}^n \rightarrow \mathbb{R}^m $ where each $f_i: \mathcal{U} \rightarrow \mathbb{R}$ is a real analytic function. We say $F$ is $\L$-analytic at $p$ if and only if there exists an open neighborhood $\mathcal{W}$ of $p$ in $\mathcal{U}$ and there exists $c , \theta \in \mathbb{R}$ such that $c > 0$ , $0 < \theta < 1$, and, for all #x \in \mathcal{W}
+\end{definition}
+\begin{align}
+    | F(x) - F(p)|^\theta \leq c \cdot \min_{|(a_1 , \dots, a_m)|=1}\left|\sum_{i=1}^m
+ a_i \nabla f_i \right|
+\end{align}
+A special case of such a map is a so-called simple $\L$ map. A simple $\L$ map is a map $F = (f_1 , \dots , f_m)$ whose component functions  have the property that their gradients are mutually orthogonal and of equal length at each point $p$ (i.e. $|\nabla f_i|^2 =|\nabla f_j|^2 $ for $i , j \leq n$ , $i \neq j$ and $\nabla f_i \cdot \nabla f_j = 0)$. In the case that $F$ is a simple $\L$ map, the strong Lojasiewicz inequality simplifies:
+\begin{align}
+    | F(x) - F(p)|^\theta \leq c \;| \nabla f_1 |
+\end{align}
+
+\printbibliography[
+heading=bibintoc,
+title={References}
+]
+
+
+
+\end{document}
